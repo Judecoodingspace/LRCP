@@ -1,8 +1,8 @@
 name: v2xsim_point_pillar_lidar_deformable_attn
-data_dir: /hd_cache/datasets/V2X-Sim-2.0
-root_dir: '/hd_cache/users/junjie/projects/coperception/v2xsim2_info_generated/v2xsim_infos_train.pkl'
-validate_dir: '/hd_cache/users/junjie/projects/coperception/v2xsim2_info_generated/v2xsim_infos_val.pkl'
-test_dir: '/hd_cache/users/junjie/projects/coperception/v2xsim2_info_generated/v2xsim_infos_test.pkl'
+data_dir: /workspace/datasets/V2X-Sim-2.0
+root_dir: '/workspace/datasets/v2xsim2_info_generated/v2xsim_infos_train.pkl'
+validate_dir: '/workspace/datasets/v2xsim2_info_generated/v2xsim_infos_val.pkl'
+test_dir: '/workspace/datasets/v2xsim2_info_generated/v2xsim_infos_test.pkl'
 
 train_stage: &train_stage "stage1" 
 # stage1_model: ./opencood/logs/dairv2x_point_pillar_lidar_deformable_attn_withoutnoise_2024_02_03_17_27_28/net_epoch_bestval_at13.pth

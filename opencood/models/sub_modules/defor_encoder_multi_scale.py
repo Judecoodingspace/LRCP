@@ -9,7 +9,7 @@ from opencood.utils.mmcv_utils import constant_init, xavier_init
 from opencood.models.sub_modules.torch_transformation_utils import warp_affine_simple
 # from mmcv.ops.multi_scale_deform_attn import multi_scale_deformable_attn_pytorch # use the pytorch version;
 from opencood.utils.ms_deform_attn_ops.functions import MSDeformAttnFunction
-from mmdet.models.utils import LearnedPositionalEncoding
+from opencood.models.sub_modules.learned_positional_encoding import LearnedPositionalEncoding
 from opencood.models.sub_modules.optical_flow import FlowPred
 from torch.nn.init import normal_
 
@@ -306,10 +306,10 @@ class DeforEncoderMultiScale(nn.Module):
             if self.calibrate and N > 1: 
                 if self.train_stage == "stage1":
                     # use offset GT
-                    offset = offsets[b:b+1, :, :, :].unsqueeze(3).repeat(1, 1, 1, self.feature_level, 1) # 1, H*W, N-1, 2 -> 1, H*W, N-1, self.feature_level, 2 
+                    offset = offsets[b:b+1, :, :N-1, :].unsqueeze(3).repeat(1, 1, 1, self.feature_level, 1) # 1, H*W, N-1, 2 -> 1, H*W, N-1, self.feature_level, 2
                 else:
                     # use pred offset
-                    offset = pred_offsets[b:b+1, :, :, :].unsqueeze(3).repeat(1, 1, 1, self.feature_level, 1)
+                    offset = pred_offsets[b:b+1, :, :N-1, :].unsqueeze(3).repeat(1, 1, 1, self.feature_level, 1)
                 ref_2d_calibrate = ref_2d.unsqueeze(2) # 1, H*W, 1, 1, 2 
                 ref_2d_calibrate = ref_2d_calibrate.repeat(1, 1, N-1, self.feature_level, 1) # 1, H*W, N-1, self.feature_level, 2
                 ref_2d_calibrate = ref_2d_calibrate + offset

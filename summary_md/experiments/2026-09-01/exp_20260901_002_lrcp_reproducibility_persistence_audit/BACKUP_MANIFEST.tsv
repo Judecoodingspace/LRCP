@@ -1,0 +1,7 @@
+asset	source_path	size	preservation_form	persistent_destination	integrity_proof	status
+LRCP_worktree	/workspace/LRCP	327M	Git+patch	UNCONFIRMED	git_state.txt; SHA256SUMS_recovery_bundle.txt	NOT_BACKED_UP
+info_pkls	/workspace/datasets/v2xsim2_info_generated/*.pkl	277193300 bytes	original files	UNCONFIRMED	SHA256SUMS_info_pkls.txt	NOT_BACKED_UP
+offset_maps	/workspace/datasets/V2X-Sim-2.0/offset_maps	37505280000 bytes	original npy tree	UNCONFIRMED	count+bytes+5 sample hashes	NOT_BACKED_UP
+raw_v2xsim	/workspace/datasets/V2X-Sim-2.0	126G	original directory tree	UNCONFIRMED	du+file count	NOT_BACKED_UP
+checkpoints	/workspace/LRCP/opencood/logs/v2xsim_point_pillar_lidar_deformable_attn_2026_09_01_19_46_02	~136.6M	native pth	UNCONFIRMED	SHA256SUMS_checkpoints.txt	NOT_BACKED_UP
+recovery_bundle	/workspace/lrcp_recovery	120K	UTF-8 manifests/patches	UNCONFIRMED	SHA256SUMS_recovery_bundle.txt	LOCAL_ONLY

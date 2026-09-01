@@ -1,0 +1,101 @@
+Filesystem     Type     Size  Used Avail Use% Mounted on
+overlay        overlay  3.4T  1.1T  2.2T  32% /
+tmpfs          tmpfs     64M     0   64M   0% /dev
+tmpfs          tmpfs    754G     0  754G   0% /sys/fs/cgroup
+/dev/nvme3n1   ext4     3.4T  1.1T  2.2T  32% /nix
+/dev/sda2      ext4     220G   56G  155G  27% /usr/share/zoneinfo/Etc/UTC
+shm            tmpfs     64M   12K   64M   1% /dev/shm
+tmpfs          tmpfs    1.5T   12K  1.5T   1% /run/secrets/kubernetes.io/serviceaccount
+tmpfs          tmpfs    754G     0  754G   0% /proc/acpi
+tmpfs          tmpfs    754G     0  754G   0% /proc/scsi
+tmpfs          tmpfs    754G     0  754G   0% /sys/firmware
+
+== findmnt ==
+TARGET                                      SOURCE                                                                                                                                                                                                  FSTYPE  OPTIONS
+/                                           overlay                                                                                                                                                                                                 overlay rw,relatime,lowerdir=362/fs:361/fs:360/fs:359/fs:358/fs:357/fs:356/fs:355/fs:354/fs:353/fs:352/fs:351/fs:350/fs:349/fs:348/fs:347/fs:346/fs:345/fs:344/fs:343/fs:342/fs:341/fs:340/fs:339/fs:338/fs:337/fs:336/fs:335/fs:334/fs:333/fs:332/fs:331/fs:330/fs:329/fs:328/fs:327/fs:326/fs:325/fs:324/fs:323/fs:322/fs:321/fs:320/fs:319/fs:318/fs:317/fs:316/fs:315/fs:314/fs:313/fs:312/fs,upperdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlaybd/snapshots/843/fs,workdir=/var/lib/containerd/io.containerd.snapshotter.v1.overlaybd/snapshots/843/work,index=off
+├─/proc                                     proc                                                                                                                                                                                                    proc    rw,nosuid,nodev,noexec,relatime
+│ ├─/proc/bus                               proc[/bus]                                                                                                                                                                                              proc    ro,nosuid,nodev,noexec,relatime
+│ ├─/proc/fs                                proc[/fs]                                                                                                                                                                                               proc    ro,nosuid,nodev,noexec,relatime
+│ ├─/proc/irq                               proc[/irq]                                                                                                                                                                                              proc    ro,nosuid,nodev,noexec,relatime
+│ ├─/proc/sys                               proc[/sys]                                                                                                                                                                                              proc    ro,nosuid,nodev,noexec,relatime
+│ ├─/proc/sysrq-trigger                     proc[/sysrq-trigger]                                                                                                                                                                                    proc    ro,nosuid,nodev,noexec,relatime
+│ ├─/proc/acpi                              tmpfs                                                                                                                                                                                                   tmpfs   ro,relatime
+│ ├─/proc/kcore                             tmpfs[/null]                                                                                                                                                                                            tmpfs   rw,nosuid,size=65536k,mode=755
+│ ├─/proc/keys                              tmpfs[/null]                                                                                                                                                                                            tmpfs   rw,nosuid,size=65536k,mode=755
+│ ├─/proc/timer_list                        tmpfs[/null]                                                                                                                                                                                            tmpfs   rw,nosuid,size=65536k,mode=755
+│ ├─/proc/sched_debug                       tmpfs[/null]                                                                                                                                                                                            tmpfs   rw,nosuid,size=65536k,mode=755
+│ └─/proc/scsi                              tmpfs                                                                                                                                                                                                   tmpfs   ro,relatime
+├─/dev                                      tmpfs                                                                                                                                                                                                   tmpfs   rw,nosuid,size=65536k,mode=755
+│ ├─/dev/pts                                devpts                                                                                                                                                                                                  devpts  rw,nosuid,noexec,relatime,gid=5,mode=620,ptmxmode=666
+│ ├─/dev/mqueue                             mqueue                                                                                                                                                                                                  mqueue  rw,nosuid,nodev,noexec,relatime
+│ ├─/dev/termination-log                    /dev/nvme3n1[/kubelet/pods/f5e3dbcc-3fca-404b-a6b6-b5ccdd5cd384/containers/main/727eca93]                                                                                                               ext4    rw,relatime
+│ └─/dev/shm                                shm                                                                                                                                                                                                     tmpfs   rw,relatime,size=65536k
+├─/sys                                      sysfs                                                                                                                                                                                                   sysfs   ro,nosuid,nodev,noexec,relatime
+│ ├─/sys/firmware                           tmpfs                                                                                                                                                                                                   tmpfs   ro,relatime
+│ └─/sys/fs/cgroup                          tmpfs                                                                                                                                                                                                   tmpfs   rw,nosuid,nodev,noexec,relatime,mode=755
+│   ├─/sys/fs/cgroup/systemd                cgroup[/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-podf5e3dbcc_3fca_404b_a6b6_b5ccdd5cd384.slice/cri-containerd-a2176a46422b4e9f041869a91a76528a4372d904b6a46866f4c655b6f34565ba.scope] cgroup  ro,nosuid,nodev,noexec,relatime,xattr,release_agent=/usr/lib/systemd/systemd-cgroups-agent,name=systemd
+│   ├─/sys/fs/cgroup/blkio                  cgroup[/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-podf5e3dbcc_3fca_404b_a6b6_b5ccdd5cd384.slice/cri-containerd-a2176a46422b4e9f041869a91a76528a4372d904b6a46866f4c655b6f34565ba.scope] cgroup  ro,nosuid,nodev,noexec,relatime,blkio
+│   ├─/sys/fs/cgroup/cpu,cpuacct            cgroup[/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-podf5e3dbcc_3fca_404b_a6b6_b5ccdd5cd384.slice/cri-containerd-a2176a46422b4e9f041869a91a76528a4372d904b6a46866f4c655b6f34565ba.scope] cgroup  ro,nosuid,nodev,noexec,relatime,cpu,cpuacct
+│   ├─/sys/fs/cgroup/perf_event             cgroup[/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-podf5e3dbcc_3fca_404b_a6b6_b5ccdd5cd384.slice/cri-containerd-a2176a46422b4e9f041869a91a76528a4372d904b6a46866f4c655b6f34565ba.scope] cgroup  ro,nosuid,nodev,noexec,relatime,perf_event
+│   ├─/sys/fs/cgroup/net_cls,net_prio       cgroup[/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-podf5e3dbcc_3fca_404b_a6b6_b5ccdd5cd384.slice/cri-containerd-a2176a46422b4e9f041869a91a76528a4372d904b6a46866f4c655b6f34565ba.scope] cgroup  ro,nosuid,nodev,noexec,relatime,net_cls,net_prio
+│   ├─/sys/fs/cgroup/cpuset                 cgroup[/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-podf5e3dbcc_3fca_404b_a6b6_b5ccdd5cd384.slice/cri-containerd-a2176a46422b4e9f041869a91a76528a4372d904b6a46866f4c655b6f34565ba.scope] cgroup  ro,nosuid,nodev,noexec,relatime,cpuset
+│   ├─/sys/fs/cgroup/devices                cgroup[/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-podf5e3dbcc_3fca_404b_a6b6_b5ccdd5cd384.slice/cri-containerd-a2176a46422b4e9f041869a91a76528a4372d904b6a46866f4c655b6f34565ba.scope] cgroup  ro,nosuid,nodev,noexec,relatime,devices
+│   ├─/sys/fs/cgroup/ioasids                cgroup                                                                                                                                                                                                  cgroup  ro,nosuid,nodev,noexec,relatime,ioasids
+│   ├─/sys/fs/cgroup/rdma                   cgroup[/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-podf5e3dbcc_3fca_404b_a6b6_b5ccdd5cd384.slice/cri-containerd-a2176a46422b4e9f041869a91a76528a4372d904b6a46866f4c655b6f34565ba.scope] cgroup  ro,nosuid,nodev,noexec,relatime,rdma
+│   ├─/sys/fs/cgroup/memory                 cgroup[/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-podf5e3dbcc_3fca_404b_a6b6_b5ccdd5cd384.slice/cri-containerd-a2176a46422b4e9f041869a91a76528a4372d904b6a46866f4c655b6f34565ba.scope] cgroup  ro,nosuid,nodev,noexec,relatime,memory
+│   ├─/sys/fs/cgroup/freezer                cgroup[/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-podf5e3dbcc_3fca_404b_a6b6_b5ccdd5cd384.slice/cri-containerd-a2176a46422b4e9f041869a91a76528a4372d904b6a46866f4c655b6f34565ba.scope] cgroup  ro,nosuid,nodev,noexec,relatime,freezer
+│   ├─/sys/fs/cgroup/hugetlb                cgroup[/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-podf5e3dbcc_3fca_404b_a6b6_b5ccdd5cd384.slice/cri-containerd-a2176a46422b4e9f041869a91a76528a4372d904b6a46866f4c655b6f34565ba.scope] cgroup  ro,nosuid,nodev,noexec,relatime,hugetlb
+│   └─/sys/fs/cgroup/pids                   cgroup[/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-podf5e3dbcc_3fca_404b_a6b6_b5ccdd5cd384.slice/cri-containerd-a2176a46422b4e9f041869a91a76528a4372d904b6a46866f4c655b6f34565ba.scope] cgroup  ro,nosuid,nodev,noexec,relatime,pids
+├─/nix                                      /dev/nvme3n1[/kubelet/pods/f5e3dbcc-3fca-404b-a6b6-b5ccdd5cd384/volumes/kubernetes.io~empty-dir/nix-volume]                                                                                             ext4    rw,relatime
+├─/etc/ssh_public_key                       /dev/nvme3n1[/kubelet/pods/f5e3dbcc-3fca-404b-a6b6-b5ccdd5cd384/volumes/kubernetes.io~configmap/config-volume/..2026_08_29_14_33_50.3861105851/authorized_keys]                                         ext4    ro,relatime
+├─/etc/init_nb.sh                           /dev/nvme3n1[/kubelet/pods/f5e3dbcc-3fca-404b-a6b6-b5ccdd5cd384/volumes/kubernetes.io~configmap/config-volume/..2026_08_29_14_33_50.3861105851/init_nb.sh]                                              ext4    ro,relatime
+├─/usr/share/zoneinfo/Etc/UTC               /dev/sda2[/usr/share/zoneinfo/Asia/Shanghai]                                                                                                                                                            ext4    rw,relatime
+├─/etc/hosts                                /dev/nvme3n1[/kubelet/pods/f5e3dbcc-3fca-404b-a6b6-b5ccdd5cd384/etc-hosts]                                                                                                                              ext4    rw,relatime
+├─/etc/hostname                             /dev/nvme3n1[/containerd/io.containerd.grpc.v1.cri/sandboxes/e8d4800575b892ef4b91a747e1ba64d78d57ab37a35942ecf1fe48b21a59b963/hostname]                                                                 ext4    rw,relatime
+├─/etc/resolv.conf                          /dev/nvme3n1[/containerd/io.containerd.grpc.v1.cri/sandboxes/e8d4800575b892ef4b91a747e1ba64d78d57ab37a35942ecf1fe48b21a59b963/resolv.conf]                                                              ext4    rw,relatime
+└─/run/secrets/kubernetes.io/serviceaccount tmpfs                                                                                                                                                                                                   tmpfs   ro,relatime,size=1578612688k
+
+== findmnt workspace ==
+
+== findmnt datasets ==
+
+== lsblk ==
+NAME    FSTYPE FSVER LABEL UUID FSAVAIL FSUSE% MOUNTPOINTS
+sda                                            
+├─sda1                                         
+├─sda2                           154.7G    25% /usr/share/zoneinfo/Etc/UTC
+└─sda3                                         
+nvme3n1                            2.2T    30% /etc/resolv.conf
+                                               /etc/hostname
+                                               /dev/termination-log
+                                               /etc/hosts
+                                               /etc/init_nb.sh
+                                               /etc/ssh_public_key
+                                               /nix
+nvme2n1                                        
+nvme1n1                                        
+nvme0n1                                        
+
+== mount ==
+
+== /data ==
+df: /data: No such file or directory
+
+== /datasets ==
+df: /datasets: No such file or directory
+
+== /mnt ==
+Filesystem     Type     Size  Used Avail Use% Mounted on
+overlay        overlay  3.4T  1.1T  2.2T  32% /
+
+== /home ==
+Filesystem     Type     Size  Used Avail Use% Mounted on
+overlay        overlay  3.4T  1.1T  2.2T  32% /
+
+== /root ==
+Filesystem     Type     Size  Used Avail Use% Mounted on
+overlay        overlay  3.4T  1.1T  2.2T  32% /
+
+== /workspace ==
+Filesystem     Type     Size  Used Avail Use% Mounted on
+overlay        overlay  3.4T  1.1T  2.2T  32% /

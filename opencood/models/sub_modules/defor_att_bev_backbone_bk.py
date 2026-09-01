@@ -8,7 +8,7 @@ import torch.nn as nn
 from opencood.models.fuse_modules.deformable_attn import DeforAttFusion
 from opencood.models.sub_modules.auto_encoder import AutoEncoder
 
-from mmdet.models.utils import LearnedPositionalEncoding
+from opencood.models.sub_modules.learned_positional_encoding import LearnedPositionalEncoding
 
 DEBUG = False
 

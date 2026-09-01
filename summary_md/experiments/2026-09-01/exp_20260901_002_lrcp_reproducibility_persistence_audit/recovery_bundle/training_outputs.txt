@@ -1,0 +1,4 @@
+/workspace/LRCP/opencood/logs/v2xsim_point_pillar_lidar_deformable_attn_2026_09_01_19_18_42/events.out.tfevents.1788261522.nb-53203c7f0f22304183-f8c88758d-dtxgq	40	2026-09-01 19:18
+/workspace/LRCP/opencood/logs/v2xsim_point_pillar_lidar_deformable_attn_2026_09_01_19_46_02/events.out.tfevents.1788263163.nb-53203c7f0f22304183-f8c88758d-dtxgq	431049	2026-09-01 20:49
+/workspace/LRCP/opencood/logs/v2xsim_point_pillar_lidar_deformable_attn_2026_09_01_19_46_02/net_epoch1.pth	68286099	2026-09-01 20:49
+/workspace/LRCP/opencood/logs/v2xsim_point_pillar_lidar_deformable_attn_2026_09_01_19_46_02/net_epoch_bestval_at1.pth	68291430	2026-09-01 20:49

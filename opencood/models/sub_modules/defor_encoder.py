@@ -9,7 +9,7 @@ from opencood.utils.mmcv_utils import constant_init, xavier_init
 from opencood.models.sub_modules.torch_transformation_utils import warp_affine_simple
 # from mmcv.ops.multi_scale_deform_attn import multi_scale_deformable_attn_pytorch # use the pytorch version;
 from opencood.utils.ms_deform_attn_ops.functions import MSDeformAttnFunction
-from mmdet.models.utils import LearnedPositionalEncoding
+from opencood.models.sub_modules.learned_positional_encoding import LearnedPositionalEncoding
 from opencood.models.sub_modules.optical_flow import FlowPred
 from torch.nn.init import normal_
 

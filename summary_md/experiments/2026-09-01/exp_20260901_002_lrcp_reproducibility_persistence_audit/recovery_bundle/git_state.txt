@@ -1,0 +1,42 @@
+== remotes ==
+origin	https://github.com/junjie-wang-dev/LRCP.git (fetch)
+origin	https://github.com/junjie-wang-dev/LRCP.git (push)
+
+== branch ==
+main
+
+== head ==
+1eb3793b9befd9d36dd8705e461d895a41b39d33
+
+== status ==
+ M data_preprocess_tools/flow_label_gen_v2x-smi.py
+ M data_preprocess_tools/v2x-sim_delay_pairs-generation.py
+ M opencood/data_utils/datasets/basedataset/v2xsim_basedataset.py
+ M opencood/data_utils/datasets/intermediate_latency_fusion_dataset.py
+ M opencood/hypes_yaml/v2xsim/pointpillar_deformable_attn_stage1.yaml
+ M opencood/models/meta_flow.py
+ M opencood/models/sub_modules/defor_att_bev_backbone_bk.py
+ M opencood/models/sub_modules/defor_encoder.py
+ M opencood/models/sub_modules/defor_encoder_multi_scale.py
+ M opencood/models/sub_modules/defor_encoder_multi_scale_single_agent.py
+ M opencood/utils/ms_deform_attn_ops/src/cuda/ms_deform_attn_cuda.cu
+ M opencood/utils/transformation_utils.py
+?? data_preprocess_tools/custom_vis.py
+?? data_preprocess_tools/flow_label_gen_v2x-smi.py.bak
+?? data_preprocess_tools/twoD_tools.py
+?? data_preprocess_tools/v2x-sim_delay_pairs-generation.py.bak
+?? opencood/hypes_yaml/v2xsim/pointpillar_deformable_attn_stage1.yaml.bak
+?? opencood/models/sub_modules/learned_positional_encoding.py
+?? opencood/utils/ms_deform_attn_ops/src/cuda/ms_deform_attn_cuda.cu.bak
+?? summary_md/
+
+== log ==
+1eb3793 Update readme
+61301bc update ReadMe
+83cc01d update ReadME
+768a307 Update README.md
+808b843 typo
+
+== upstream refs ==
+  origin/HEAD -> origin/main
+  origin/main

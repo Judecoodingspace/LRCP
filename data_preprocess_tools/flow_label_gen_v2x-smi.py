@@ -307,14 +307,14 @@ def label_flow(token, dataset_info_dict):
     return offsets_l
 
 if __name__ == '__main__':
-    root_dir = '/data/datasets/V2X-smi/V2X-Sim-2.0'
+    root_dir = '/workspace/datasets/V2X-Sim-2.0'
     save_dir = 'offset_maps'
     if not os.path.exists(os.path.join(root_dir, save_dir)):
         os.mkdir(os.path.join(root_dir, save_dir))
 
-    pkl_files = ['/hd_cache/users/junjie/projects/coperception/v2xsim2_info_generated/v2xsim_infos_train.pkl',
-                 '/hd_cache/users/junjie/projects/coperception/v2xsim2_info_generated/v2xsim_infos_val.pkl',
-                 '/hd_cache/users/junjie/projects/coperception/v2xsim2_info_generated/v2xsim_infos_test.pkl'
+    pkl_files = ['/workspace/datasets/v2xsim2_info_generated/v2xsim_infos_train.pkl',
+                 '/workspace/datasets/v2xsim2_info_generated/v2xsim_infos_val.pkl',
+                 '/workspace/datasets/v2xsim2_info_generated/v2xsim_infos_test.pkl'
                  ]
     for pkl_file in pkl_files:
         with open(pkl_file, 'rb') as f:

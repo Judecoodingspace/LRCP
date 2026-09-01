@@ -492,13 +492,15 @@ def getIntermediatelatencyFusionDataset(cls):
             # pairwise transformation matrix
             pairwise_t_matrix_list = []
 
-            # a list for every no ego agent
+            # Calibration data is indexed by remote feature slot, never by
+            # physical CAV ID. Slot 0 is ego and slots 1..max_cav-1 follow
+            # every sample's cav_id_list order.
             no_ego_info_dcit = OrderedDict()
-            for cav_id in range(1, self.max_cav+1):
-                no_ego_info_dcit[str(cav_id)] = {}
-                no_ego_info_dcit[str(cav_id)]['offset'] = []
-                no_ego_info_dcit[str(cav_id)]['time_delay'] = []
-                no_ego_info_dcit[str(cav_id)]['lidar_history'] = []
+            for remote_slot in range(1, self.max_cav):
+                no_ego_info_dcit[remote_slot] = {
+                    'offset': [], 'time_delay': [], 'lidar_history': [],
+                    'valid_mask': [], 'physical_cav_ids': [],
+                }
 
             # disconet
             teacher_processed_lidar_list = []
@@ -541,24 +543,27 @@ def getIntermediatelatencyFusionDataset(cls):
                     object_bbx_center_single.append(ego_dict['single_object_bbx_center_torch'])
                     object_bbx_mask_single.append(ego_dict['single_object_bbx_mask_torch'])
 
-                # For no ego agent, history frames; we need to do padding 
-                for cav_id, agent_dict in batch[i].items():
-                    if cav_id != 'ego':
-                       no_ego_info_dcit[cav_id]['offset'].append(agent_dict['offset'])
-                       no_ego_info_dcit[cav_id]['time_delay'].append(agent_dict['time_delay'])  # 不同batch有的agent数量，不一样怎么处理； V2X-sim天然是dynamic的
-                       no_ego_info_dcit[cav_id]['lidar_history'].append(agent_dict['processed_lidar_history'])
-                # for cav_id in range(1, self.max_cav):
-                #     if cav_id not in batch[i]: # do padding
-                #         offset_ = torch.zeros(1, self.bev_h, self.bev_w, 2)
-                #         time_delay_ = 0.0
-                #         processed_lidar_history_ = None
-                #     else:
-                #         offset_ = batch[i][cav_id]['offset']
-                #         time_delay_ = batch[i][cav_id]['time_delay']
-                #         processed_lidar_history_ = batch[i][cav_id]['processed_lidar_history']
-                #     no_ego_info_dcit[cav_id]['offset'].append(offset_)
-                #     no_ego_info_dcit[cav_id]['time_delay'].append(time_delay_)
-                #     no_ego_info_dcit[cav_id]['lidar_history'].append(processed_lidar_history_)
+                cav_id_list = ego_dict['cav_id_list']
+                for remote_slot in range(1, self.max_cav):
+                    slot_info = no_ego_info_dcit[remote_slot]
+                    if remote_slot < len(cav_id_list):
+                        physical_cav_id = cav_id_list[remote_slot]
+                        agent_dict = batch[i][physical_cav_id]
+                        if 'offset' not in agent_dict:
+                            raise KeyError('Stage-1 calibration requires an offset for '
+                                           f'remote slot {remote_slot} (CAV {physical_cav_id}).')
+                        slot_info['offset'].append(agent_dict['offset'])
+                        slot_info['time_delay'].append(agent_dict['time_delay'])
+                        slot_info['lidar_history'].append(agent_dict.get('processed_lidar_history'))
+                        slot_info['valid_mask'].append(True)
+                        slot_info['physical_cav_ids'].append(physical_cav_id)
+                    else:
+                        slot_info['offset'].append(
+                            torch.zeros((1, self.bev_h, self.bev_w, 2), dtype=torch.float32))
+                        slot_info['time_delay'].append(0.0)
+                        slot_info['lidar_history'].append(None)
+                        slot_info['valid_mask'].append(False)
+                        slot_info['physical_cav_ids'].append(None)
             # convert to numpy, (B, max_num, 7)
             object_bbx_center = torch.from_numpy(np.array(object_bbx_center))
             object_bbx_mask = torch.from_numpy(np.array(object_bbx_mask))
@@ -631,18 +636,17 @@ def getIntermediatelatencyFusionDataset(cls):
                 })
 
             output_dict['ego']['calibrate_data'] = OrderedDict()
-            for cav_id in range(1, self.max_cav):
-                # output_dict[cav_id] = {}
-                # output_dict[cav_id]['offset'] = torch.cat(no_ego_info_dcit[cav_id]['offset'], dim=0)
-                # output_dict[cav_id]['time_delay'] =  torch.tensor(no_ego_info_dcit[cav_id]['time_delay'])
-                # output_dict[cav_id]['lidar_history'] = no_ego_info_dcit[cav_id]['lidar_history']  # still a list
-                # we still write all the history under the ego key, just to make it compatible with previous codes
-                output_dict['ego']['calibrate_data'][cav_id] = {}
-                output_dict['ego']['calibrate_data'][cav_id]['offset'] = \
-                                                    torch.cat(no_ego_info_dcit[str(cav_id)]['offset'], dim=0) if len(no_ego_info_dcit[str(cav_id)]['offset']) > 0 else None
-                output_dict['ego']['calibrate_data'][cav_id]['time_delay'] =  \
-                                                    torch.tensor(no_ego_info_dcit[str(cav_id)]['time_delay']) if len(no_ego_info_dcit[str(cav_id)]['time_delay']) > 0 else None
-                output_dict['ego']['calibrate_data'][cav_id]['lidar_history'] = no_ego_info_dcit[str(cav_id)]['lidar_history']  # still a list
+            for remote_slot in range(1, self.max_cav):
+                slot_info = no_ego_info_dcit[remote_slot]
+                # Keys are remote slots for compatibility with the existing
+                # model loop; physical IDs are diagnostic metadata only.
+                output_dict['ego']['calibrate_data'][remote_slot] = {
+                    'offset': torch.cat(slot_info['offset'], dim=0),
+                    'time_delay': torch.tensor(slot_info['time_delay']),
+                    'lidar_history': slot_info['lidar_history'],
+                    'valid_mask': torch.tensor(slot_info['valid_mask'], dtype=torch.bool),
+                    'physical_cav_ids': slot_info['physical_cav_ids'],
+                }
 
             return output_dict
 

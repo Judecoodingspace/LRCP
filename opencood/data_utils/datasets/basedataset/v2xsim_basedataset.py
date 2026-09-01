@@ -220,6 +220,10 @@ class V2XSIMBaseDataset(Dataset):
                     # for ego, no time_delay
                     continue
                 history_frame_index_l, time_index = self.frame_select(scene)
+                # HISTORY_BOUNDARY_GUARD: propagate frame_select's documented
+                # rejection result to the existing __getitem__/collate path.
+                if history_frame_index_l is None or time_index is None:
+                    return None
 
                 history_info = self.load_info_history(time_index, scene, cav_id) # lidar, pose, box_label
                 data[f'{cav_id}']['lidar_np'] = history_info[0]  # over write lidar_np

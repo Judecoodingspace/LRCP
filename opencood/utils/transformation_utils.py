@@ -88,7 +88,9 @@ def get_pairwise_transformation_with_history(base_data_dict, max_cav, time_index
         shape: (L, L, 4, 4), L is the max cav number in a scene
         pairwise_t_matrix[i, j] is Tji, i_to_j
     """
-    pairwise_t_matrix = np.tile(np.eye(4), (max_cav, time_index+1, 1, 1)) # (L, T, 4, 4)
+    # Both leading dimensions are CAV slots. Temporal history is not encoded
+    # in this agent-to-agent matrix.
+    pairwise_t_matrix = np.tile(np.eye(4), (max_cav, max_cav, 1, 1))
 
     if proj_first:
         # if lidar projected to ego first, then the pairwise matrix
@@ -100,26 +102,20 @@ def get_pairwise_transformation_with_history(base_data_dict, max_cav, time_index
     else:
         t_list = []
 
-        # save all transformation matrix in a list in order first.
-        ego_id = -1
-        for cav_id, cav_content in base_data_dict.items():
+        # OrderedDict iteration is the feature-slot order (ego is slot 0).
+        # A remote's lidar_np is delayed, so prefer its matching params_single.
+        for _, cav_content in base_data_dict.items():
             if cav_content['ego']:
-                ego_id = cav_id
-        ego_pose = x_to_world(base_data_dict[ego_id]['params']['lidar_pose'])
+                pose = cav_content['params']['lidar_pose']
+            else:
+                pose = cav_content.get('params_single', cav_content['params'])['lidar_pose']
+            t_list.append(x_to_world(pose))
 
-        base_data_dict = OrderedDict(sorted(base_data_dict.items(), key=lambda x: x[0]))
-        for cav_id, cav_content in base_data_dict.items():  # base_data_dict没有按照index顺序
-            if cav_content['ego']:
-                continue
-            lidar_info_history = cav_content['params_history']
-            lidar_pose_history_T = [x_to_world(info['lidar_pose']) for info in lidar_info_history] 
-            t_list.append(lidar_pose_history_T)
-
-        # t_list: agent_index, time_index, 4, 4
-        for i, one_agent_l in enumerate(t_list):
-            for j, history_pose in enumerate(one_agent_l):
-                r_pose = np.linalg.solve(ego_pose, history_pose)
-                pairwise_t_matrix[i, j] = r_pose
+        for i, source_pose in enumerate(t_list):
+            for j, target_pose in enumerate(t_list):
+                if i != j:
+                    # Preserve get_pairwise_transformation's i->j convention.
+                    pairwise_t_matrix[i, j] = np.linalg.solve(target_pose, source_pose)
 
     return pairwise_t_matrix
 

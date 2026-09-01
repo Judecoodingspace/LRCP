@@ -1,0 +1,11 @@
+CUDA_HOME=/usr/local/PPU_SDK/CUDA_SDK
+CUDA_PATH=/usr/local/PPU_SDK/CUDA_SDK
+CUDA_TOOLKIT_ROOT=/usr/local/PPU_SDK/CUDA_SDK
+LD_LIBRARY_PATH=/usr/local/PPU_SDK/CUDA_SDK/lib64:/usr/local/PPU_SDK/lib:/usr/local/PPU_SDK/sailSHMEM/lib:/usr/local/PPU_SDK/CUDA_SDK/lib64:/usr/local/PPU_SDK/lib:/usr/local/PPU_SDK/sailSHMEM/lib:
+LIBRARY_PATH=/usr/local/PPU_SDK/CUDA_SDK/lib64:/usr/local/PPU_SDK/lib:/usr/local/PPU_SDK/CUDA_SDK/lib64:/usr/local/PPU_SDK/lib:
+PATH=/usr/local/PPU_SDK/CUDA_SDK/bin:/usr/local/PPU_SDK/asight/bin:/usr/local/PPU_SDK/bin:/usr/local/PPU_SDK/ppu-smi/bin:/workspace/venvs/lrcp/bin:/usr/local/PPU_SDK/CUDA_SDK/bin:/usr/local/PPU_SDK/asight/bin:/usr/local/PPU_SDK/bin:/usr/local/PPU_SDK/ppu-smi/bin:/root/.codex/tmp/arg0/codex-arg0pYK2OF:/root/.vscode-server/cli/servers/Stable-08d4889f9ec4a1685d257b9b95de036c8e1ce1e5/server/bin/remote-cli:/usr/bin:/bin:/usr/sbin:/sbin:/nix/store/hpvsf3db2q0ij33aw31n953gdkhlmwrg-openssh-10.2p1/bin:/root/.vscode-server/extensions/openai.chatgpt-26.825.51511-linux-x64/bin/linux-x86_64
+PPU_SDK=/usr/local/PPU_SDK
+SAILSHMEM_DIR=/usr/local/PPU_SDK/sailSHMEM
+/usr/local/PPU_SDK/VERSION.txt
+/usr/local/PPU_SDK/CUDA_SDK/VERSION.txt
+/usr/local/PPU_SDK/release.yaml

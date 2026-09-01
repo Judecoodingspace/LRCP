@@ -1,0 +1,3 @@
+file_count=10000
+total_bytes=37505280000
+directory_mtime_utc=1788243934.5727837

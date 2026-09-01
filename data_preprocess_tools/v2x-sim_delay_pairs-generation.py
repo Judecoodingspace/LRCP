@@ -326,8 +326,8 @@ def create_pkl(nusc, save_dir):
 
 if __name__=="__main__":
 
-    nusc = NuScenes(version='v1.0-mini', dataroot='/data/datasets/V2X-smi/V2X-Sim-2.0', verbose=True) # specify your own path.
-    output_path = "./v2xsim2_info_generated" # a folder path. specify your own path.
+    nusc = NuScenes(version='v2.0', dataroot='/workspace/datasets/V2X-Sim-2.0', verbose=True) # specify your own path.
+    output_path = "/workspace/datasets/v2xsim2_info_generated" # a folder path. specify your own path.
 
     global hash_map
     hash_map = build_hash_map(nusc)

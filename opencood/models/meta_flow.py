@@ -9,7 +9,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import math
-from mmdet.models.utils import LearnedPositionalEncoding
+from opencood.models.sub_modules.learned_positional_encoding import LearnedPositionalEncoding
 from opencood.models.sub_modules.defor_encoder_multi_scale_single_agent import Block
 from torch.nn.init import normal_
 
