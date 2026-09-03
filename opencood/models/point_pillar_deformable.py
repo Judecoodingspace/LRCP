@@ -57,19 +57,26 @@ class PointPillarDeformable(nn.Module):
             self.use_seperate_head = False
 
     @torch.no_grad()
-    def get_batch_pillar_features(self, batch_history_lidar, pairwise_t_matrix, agent_index):
-        # batch, T, lidar; process all the batchs within one agent
+    def get_batch_pillar_features(self, batch_history_lidar, pairwise_t_matrix,
+                                  agent_index, batch_indices=None):
+        # Process valid histories while preserving their original batch-row
+        # indices for pairwise transformation lookup.
+        if batch_indices is None:
+            batch_indices = range(len(batch_history_lidar))
+        assert len(batch_history_lidar) == len(batch_indices)
+
         num_levels = self.backbone.num_levels
         multiscale_features = [[] for _ in range(num_levels)]
-        for batch_index, batch_lidars in enumerate(batch_history_lidar):
+        for batch_index, batch_lidars in zip(batch_indices, batch_history_lidar):
             batch_lidars = self.pillar_vfe(batch_lidars)
             batch_lidars = self.scatter(batch_lidars) # spatial feature: T, C, H, W
             batch_lidars['pairwise_t_matrix'] = pairwise_t_matrix
-            # process all the T frames within one batch
-            T_frame_features = self.backbone.get_projected_bev_features(batch_lidars, batch_index, agent_index)# [ (t, c0, h0, w0), ( t, c1, h1, w1), (t, c2, h2, w2) ]
+            # batch_index remains the original row, not a filtered local row.
+            T_frame_features = self.backbone.get_projected_bev_features(
+                batch_lidars, batch_index, agent_index)
             for i in range(num_levels):
                 multiscale_features[i].append(T_frame_features[i].unsqueeze(0))
-        multiscale_features = [ torch.cat(x, dim=0) for x in multiscale_features] # [ (b, t, c0, h0, w0), (b, t, c1, h1, w1), (b, t, c2, h2, w2) ]
+        multiscale_features = [torch.cat(x, dim=0) for x in multiscale_features]
         return multiscale_features
 
     def forward(self, data_dict):
@@ -95,10 +102,29 @@ class PointPillarDeformable(nn.Module):
             for cav_id in data_dict['calibrate_data']:
                 offset_GT = data_dict['calibrate_data'][cav_id]['offset']  # 这个可能小于batch_size, record_len中记录了这个信息
                 offset_GT_l.append(offset_GT)
-                time_delay = data_dict['calibrate_data'][cav_id]['time_delay']
+                calibration_data = data_dict['calibrate_data'][cav_id]
+                time_delay = calibration_data['time_delay']
                 if self.train_stage != 'stage1': # for stage1, we use the GT, save memory
-                    lidar_history_features = self.get_batch_pillar_features(data_dict['calibrate_data'][cav_id]['lidar_history'], pairwise_t_matrix, cav_id)
-                    predicted_offset = self.meta_flow(lidar_history_features, time_delay)
+                    valid_mask = calibration_data['valid_mask'].to(device=offset_GT.device,
+                                                                    dtype=torch.bool)
+                    lidar_history = calibration_data['lidar_history']
+                    assert valid_mask.ndim == 1 and valid_mask.shape[0] == offset_GT.shape[0]
+                    assert len(lidar_history) == offset_GT.shape[0]
+
+                    valid_indices = torch.nonzero(valid_mask, as_tuple=False).flatten()
+                    if valid_indices.numel() == 0:
+                        predicted_offset = torch.zeros_like(offset_GT)
+                    else:
+                        original_indices = valid_indices.tolist()
+                        valid_history = [lidar_history[index] for index in original_indices]
+                        assert all(history is not None for history in valid_history)
+                        lidar_history_features = self.get_batch_pillar_features(
+                            valid_history, pairwise_t_matrix, cav_id, original_indices)
+                        valid_time_delay = time_delay.index_select(0, valid_indices)
+                        valid_prediction = self.meta_flow(lidar_history_features,
+                                                          valid_time_delay)
+                        predicted_offset = torch.zeros_like(offset_GT).index_copy(
+                            0, valid_indices, valid_prediction)
                     predicted_offset_l.append(predicted_offset)
             
             offsets = [offset.flatten(start_dim=1, end_dim=2).unsqueeze(2) for offset in offset_GT_l]
