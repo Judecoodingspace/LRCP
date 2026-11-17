@@ -1,0 +1,94 @@
+{
+  "python": "3.10.13 (main, Sep  2 2025, 17:44:18) [GCC 11.4.0]",
+  "executable": "/workspace/venvs/lrcp/bin/python",
+  "real_executable": "/usr/local/bin/python3.10",
+  "prefix": "/workspace/venvs/lrcp",
+  "base_prefix": "/usr/local",
+  "sys_path": [
+    "/workspace/lrcp_migration_audit_20261117",
+    "/usr/local/lib/python310.zip",
+    "/usr/local/lib/python3.10",
+    "/usr/local/lib/python3.10/lib-dynload",
+    "/workspace/venvs/lrcp/lib/python3.10/site-packages",
+    "/usr/local/lib/python3.10/site-packages"
+  ],
+  "machine": "x86_64",
+  "libc": [
+    "glibc",
+    "2.35"
+  ],
+  "platform": "Linux-5.10.134-17.2.al8.x86_64-x86_64-with-glibc2.35",
+  "no_torch_import": true,
+  "no_GPU_device_query": true,
+  "PPU_image_digest": "NOT_AVAILABLE_FROM_LOCAL_PROJECT; obtain provider image ID/snapshot before cleanup",
+  "source_pyvenv_cfg": "home = /usr/local/bin\ninclude-system-site-packages = true\nversion = 3.10.13\n",
+  "PPU_release": "version: 1.6.1-14620b\n",
+  "OS_release": "PRETTY_NAME=\"Ubuntu 22.04.5 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"22.04\"\nVERSION=\"22.04.5 LTS (Jammy Jellyfish)\"\nVERSION_CODENAME=jammy\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=jammy\n",
+  "key_packages": {
+    "torch": [
+      "torch",
+      "2.6.0",
+      "/usr/local/lib/python3.10/site-packages"
+    ],
+    "torchvision": [
+      "torchvision",
+      "0.21.0",
+      "/usr/local/lib/python3.10/site-packages"
+    ],
+    "spconv": [
+      "spconv",
+      "1.2.1",
+      "/usr/local/lib/python3.10/site-packages"
+    ],
+    "MultiScaleDeformableAttention": [
+      "MultiScaleDeformableAttention",
+      "1.0",
+      "/usr/local/lib/python3.10/site-packages"
+    ],
+    "numpy": [
+      "numpy",
+      "1.23.5",
+      "/usr/local/lib/python3.10/site-packages"
+    ],
+    "Shapely": [
+      "Shapely",
+      "1.8.5.post1",
+      "/workspace/venvs/lrcp/lib/python3.10/site-packages"
+    ],
+    "Cython": [
+      "Cython",
+      "3.3.0",
+      "/usr/local/lib/python3.10/site-packages"
+    ],
+    "PyYAML": [
+      "PyYAML",
+      "6.0",
+      "/usr/local/lib/python3.10/site-packages"
+    ],
+    "scipy": [
+      "scipy",
+      "1.9.3",
+      "/usr/local/lib/python3.10/site-packages"
+    ],
+    "numba": [
+      "numba",
+      "0.60.0",
+      "/usr/local/lib/python3.10/site-packages"
+    ],
+    "llvmlite": [
+      "llvmlite",
+      "0.43.0",
+      "/usr/local/lib/python3.10/site-packages"
+    ],
+    "setuptools": [
+      "setuptools",
+      "65.5.0",
+      "/workspace/venvs/lrcp/lib/python3.10/site-packages"
+    ],
+    "pip": [
+      "pip",
+      "23.0.1",
+      "/workspace/venvs/lrcp/lib/python3.10/site-packages"
+    ]
+  }
+}

@@ -1,0 +1,197 @@
+diff --git a/opencood/data_utils/datasets/basedataset/v2xsim_basedataset.py b/opencood/data_utils/datasets/basedataset/v2xsim_basedataset.py
+index 9e48641..c48c064 100644
+--- a/opencood/data_utils/datasets/basedataset/v2xsim_basedataset.py
++++ b/opencood/data_utils/datasets/basedataset/v2xsim_basedataset.py
+@@ -220,6 +220,10 @@ class V2XSIMBaseDataset(Dataset):
+                     # for ego, no time_delay
+                     continue
+                 history_frame_index_l, time_index = self.frame_select(scene)
++                # HISTORY_BOUNDARY_GUARD: propagate frame_select's documented
++                # rejection result to the existing __getitem__/collate path.
++                if history_frame_index_l is None or time_index is None:
++                    return None
+ 
+                 history_info = self.load_info_history(time_index, scene, cav_id) # lidar, pose, box_label
+                 data[f'{cav_id}']['lidar_np'] = history_info[0]  # over write lidar_np
+diff --git a/opencood/data_utils/datasets/intermediate_latency_fusion_dataset.py b/opencood/data_utils/datasets/intermediate_latency_fusion_dataset.py
+index 32dd7c2..e5a6ce1 100644
+--- a/opencood/data_utils/datasets/intermediate_latency_fusion_dataset.py
++++ b/opencood/data_utils/datasets/intermediate_latency_fusion_dataset.py
+@@ -492,13 +492,15 @@ def getIntermediatelatencyFusionDataset(cls):
+             # pairwise transformation matrix
+             pairwise_t_matrix_list = []
+ 
+-            # a list for every no ego agent
++            # Calibration data is indexed by remote feature slot, never by
++            # physical CAV ID. Slot 0 is ego and slots 1..max_cav-1 follow
++            # every sample's cav_id_list order.
+             no_ego_info_dcit = OrderedDict()
+-            for cav_id in range(1, self.max_cav+1):
+-                no_ego_info_dcit[str(cav_id)] = {}
+-                no_ego_info_dcit[str(cav_id)]['offset'] = []
+-                no_ego_info_dcit[str(cav_id)]['time_delay'] = []
+-                no_ego_info_dcit[str(cav_id)]['lidar_history'] = []
++            for remote_slot in range(1, self.max_cav):
++                no_ego_info_dcit[remote_slot] = {
++                    'offset': [], 'time_delay': [], 'lidar_history': [],
++                    'valid_mask': [], 'physical_cav_ids': [],
++                }
+ 
+             # disconet
+             teacher_processed_lidar_list = []
+@@ -541,24 +543,27 @@ def getIntermediatelatencyFusionDataset(cls):
+                     object_bbx_center_single.append(ego_dict['single_object_bbx_center_torch'])
+                     object_bbx_mask_single.append(ego_dict['single_object_bbx_mask_torch'])
+ 
+-                # For no ego agent, history frames; we need to do padding 
+-                for cav_id, agent_dict in batch[i].items():
+-                    if cav_id != 'ego':
+-                       no_ego_info_dcit[cav_id]['offset'].append(agent_dict['offset'])
+-                       no_ego_info_dcit[cav_id]['time_delay'].append(agent_dict['time_delay'])  # 不同batch有的agent数量，不一样怎么处理； V2X-sim天然是dynamic的
+-                       no_ego_info_dcit[cav_id]['lidar_history'].append(agent_dict['processed_lidar_history'])
+-                # for cav_id in range(1, self.max_cav):
+-                #     if cav_id not in batch[i]: # do padding
+-                #         offset_ = torch.zeros(1, self.bev_h, self.bev_w, 2)
+-                #         time_delay_ = 0.0
+-                #         processed_lidar_history_ = None
+-                #     else:
+-                #         offset_ = batch[i][cav_id]['offset']
+-                #         time_delay_ = batch[i][cav_id]['time_delay']
+-                #         processed_lidar_history_ = batch[i][cav_id]['processed_lidar_history']
+-                #     no_ego_info_dcit[cav_id]['offset'].append(offset_)
+-                #     no_ego_info_dcit[cav_id]['time_delay'].append(time_delay_)
+-                #     no_ego_info_dcit[cav_id]['lidar_history'].append(processed_lidar_history_)
++                cav_id_list = ego_dict['cav_id_list']
++                for remote_slot in range(1, self.max_cav):
++                    slot_info = no_ego_info_dcit[remote_slot]
++                    if remote_slot < len(cav_id_list):
++                        physical_cav_id = cav_id_list[remote_slot]
++                        agent_dict = batch[i][physical_cav_id]
++                        if 'offset' not in agent_dict:
++                            raise KeyError('Stage-1 calibration requires an offset for '
++                                           f'remote slot {remote_slot} (CAV {physical_cav_id}).')
++                        slot_info['offset'].append(agent_dict['offset'])
++                        slot_info['time_delay'].append(agent_dict['time_delay'])
++                        slot_info['lidar_history'].append(agent_dict.get('processed_lidar_history'))
++                        slot_info['valid_mask'].append(True)
++                        slot_info['physical_cav_ids'].append(physical_cav_id)
++                    else:
++                        slot_info['offset'].append(
++                            torch.zeros((1, self.bev_h, self.bev_w, 2), dtype=torch.float32))
++                        slot_info['time_delay'].append(0.0)
++                        slot_info['lidar_history'].append(None)
++                        slot_info['valid_mask'].append(False)
++                        slot_info['physical_cav_ids'].append(None)
+             # convert to numpy, (B, max_num, 7)
+             object_bbx_center = torch.from_numpy(np.array(object_bbx_center))
+             object_bbx_mask = torch.from_numpy(np.array(object_bbx_mask))
+@@ -631,18 +636,17 @@ def getIntermediatelatencyFusionDataset(cls):
+                 })
+ 
+             output_dict['ego']['calibrate_data'] = OrderedDict()
+-            for cav_id in range(1, self.max_cav):
+-                # output_dict[cav_id] = {}
+-                # output_dict[cav_id]['offset'] = torch.cat(no_ego_info_dcit[cav_id]['offset'], dim=0)
+-                # output_dict[cav_id]['time_delay'] =  torch.tensor(no_ego_info_dcit[cav_id]['time_delay'])
+-                # output_dict[cav_id]['lidar_history'] = no_ego_info_dcit[cav_id]['lidar_history']  # still a list
+-                # we still write all the history under the ego key, just to make it compatible with previous codes
+-                output_dict['ego']['calibrate_data'][cav_id] = {}
+-                output_dict['ego']['calibrate_data'][cav_id]['offset'] = \
+-                                                    torch.cat(no_ego_info_dcit[str(cav_id)]['offset'], dim=0) if len(no_ego_info_dcit[str(cav_id)]['offset']) > 0 else None
+-                output_dict['ego']['calibrate_data'][cav_id]['time_delay'] =  \
+-                                                    torch.tensor(no_ego_info_dcit[str(cav_id)]['time_delay']) if len(no_ego_info_dcit[str(cav_id)]['time_delay']) > 0 else None
+-                output_dict['ego']['calibrate_data'][cav_id]['lidar_history'] = no_ego_info_dcit[str(cav_id)]['lidar_history']  # still a list
++            for remote_slot in range(1, self.max_cav):
++                slot_info = no_ego_info_dcit[remote_slot]
++                # Keys are remote slots for compatibility with the existing
++                # model loop; physical IDs are diagnostic metadata only.
++                output_dict['ego']['calibrate_data'][remote_slot] = {
++                    'offset': torch.cat(slot_info['offset'], dim=0),
++                    'time_delay': torch.tensor(slot_info['time_delay']),
++                    'lidar_history': slot_info['lidar_history'],
++                    'valid_mask': torch.tensor(slot_info['valid_mask'], dtype=torch.bool),
++                    'physical_cav_ids': slot_info['physical_cav_ids'],
++                }
+ 
+             return output_dict
+ 
+diff --git a/opencood/models/sub_modules/defor_encoder_multi_scale.py b/opencood/models/sub_modules/defor_encoder_multi_scale.py
+index 6f6d9fc..2815b61 100644
+--- a/opencood/models/sub_modules/defor_encoder_multi_scale.py
++++ b/opencood/models/sub_modules/defor_encoder_multi_scale.py
+@@ -9,7 +9,7 @@ from opencood.utils.mmcv_utils import constant_init, xavier_init
+ from opencood.models.sub_modules.torch_transformation_utils import warp_affine_simple
+ # from mmcv.ops.multi_scale_deform_attn import multi_scale_deformable_attn_pytorch # use the pytorch version;
+ from opencood.utils.ms_deform_attn_ops.functions import MSDeformAttnFunction
+-from mmdet.models.utils import LearnedPositionalEncoding
++from opencood.models.sub_modules.learned_positional_encoding import LearnedPositionalEncoding
+ from opencood.models.sub_modules.optical_flow import FlowPred
+ from torch.nn.init import normal_
+ 
+@@ -306,10 +306,10 @@ class DeforEncoderMultiScale(nn.Module):
+             if self.calibrate and N > 1: 
+                 if self.train_stage == "stage1":
+                     # use offset GT
+-                    offset = offsets[b:b+1, :, :, :].unsqueeze(3).repeat(1, 1, 1, self.feature_level, 1) # 1, H*W, N-1, 2 -> 1, H*W, N-1, self.feature_level, 2 
++                    offset = offsets[b:b+1, :, :N-1, :].unsqueeze(3).repeat(1, 1, 1, self.feature_level, 1) # 1, H*W, N-1, 2 -> 1, H*W, N-1, self.feature_level, 2
+                 else:
+                     # use pred offset
+-                    offset = pred_offsets[b:b+1, :, :, :].unsqueeze(3).repeat(1, 1, 1, self.feature_level, 1)
++                    offset = pred_offsets[b:b+1, :, :N-1, :].unsqueeze(3).repeat(1, 1, 1, self.feature_level, 1)
+                 ref_2d_calibrate = ref_2d.unsqueeze(2) # 1, H*W, 1, 1, 2 
+                 ref_2d_calibrate = ref_2d_calibrate.repeat(1, 1, N-1, self.feature_level, 1) # 1, H*W, N-1, self.feature_level, 2
+                 ref_2d_calibrate = ref_2d_calibrate + offset
+diff --git a/opencood/utils/transformation_utils.py b/opencood/utils/transformation_utils.py
+index a144091..e1ee2d0 100644
+--- a/opencood/utils/transformation_utils.py
++++ b/opencood/utils/transformation_utils.py
+@@ -88,7 +88,9 @@ def get_pairwise_transformation_with_history(base_data_dict, max_cav, time_index
+         shape: (L, L, 4, 4), L is the max cav number in a scene
+         pairwise_t_matrix[i, j] is Tji, i_to_j
+     """
+-    pairwise_t_matrix = np.tile(np.eye(4), (max_cav, time_index+1, 1, 1)) # (L, T, 4, 4)
++    # Both leading dimensions are CAV slots. Temporal history is not encoded
++    # in this agent-to-agent matrix.
++    pairwise_t_matrix = np.tile(np.eye(4), (max_cav, max_cav, 1, 1))
+ 
+     if proj_first:
+         # if lidar projected to ego first, then the pairwise matrix
+@@ -100,26 +102,20 @@ def get_pairwise_transformation_with_history(base_data_dict, max_cav, time_index
+     else:
+         t_list = []
+ 
+-        # save all transformation matrix in a list in order first.
+-        ego_id = -1
+-        for cav_id, cav_content in base_data_dict.items():
++        # OrderedDict iteration is the feature-slot order (ego is slot 0).
++        # A remote's lidar_np is delayed, so prefer its matching params_single.
++        for _, cav_content in base_data_dict.items():
+             if cav_content['ego']:
+-                ego_id = cav_id
+-        ego_pose = x_to_world(base_data_dict[ego_id]['params']['lidar_pose'])
++                pose = cav_content['params']['lidar_pose']
++            else:
++                pose = cav_content.get('params_single', cav_content['params'])['lidar_pose']
++            t_list.append(x_to_world(pose))
+ 
+-        base_data_dict = OrderedDict(sorted(base_data_dict.items(), key=lambda x: x[0]))
+-        for cav_id, cav_content in base_data_dict.items():  # base_data_dict没有按照index顺序
+-            if cav_content['ego']:
+-                continue
+-            lidar_info_history = cav_content['params_history']
+-            lidar_pose_history_T = [x_to_world(info['lidar_pose']) for info in lidar_info_history] 
+-            t_list.append(lidar_pose_history_T)
+-
+-        # t_list: agent_index, time_index, 4, 4
+-        for i, one_agent_l in enumerate(t_list):
+-            for j, history_pose in enumerate(one_agent_l):
+-                r_pose = np.linalg.solve(ego_pose, history_pose)
+-                pairwise_t_matrix[i, j] = r_pose
++        for i, source_pose in enumerate(t_list):
++            for j, target_pose in enumerate(t_list):
++                if i != j:
++                    # Preserve get_pairwise_transformation's i->j convention.
++                    pairwise_t_matrix[i, j] = np.linalg.solve(target_pose, source_pose)
+ 
+     return pairwise_t_matrix
+ 

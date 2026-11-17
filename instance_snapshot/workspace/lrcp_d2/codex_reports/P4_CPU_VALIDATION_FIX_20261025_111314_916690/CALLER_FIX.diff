@@ -1,0 +1,49 @@
+--- /workspace/lrcp_d2/codex_reports/P4_PILOT_RETRY_20261023_234457_384594/verify_pilot.py
++++ /workspace/lrcp_d2/codex_reports/P4_CPU_VALIDATION_FIX_20261025_111314_916690/verify_pilot_cpu_fixed.py
+@@ -3,9 +3,16 @@
+ """
+ import csv,json,time,collections,signal
+ import numpy as np
++import sys
++import torch
++sys.path.insert(0,'/workspace/lrcp_d2/codex_reports/P4_PILOT_RETRY_20261023_234457_384594')
+ from pilot_common import *
++OUT=Path(__file__).resolve().parent
++from eval_adapter import cpu_tensor_inputs
+ 
+ def verify():
++ signal.signal(signal.SIGALRM,lambda s,f:(_ for _ in ()).throw(TimeoutError('CPU_REVALIDATION_TIMEOUT')));signal.alarm(1800)
++ assert not torch.cuda.is_initialized()
+  start=time.monotonic();state=json.load((R/'STATE.json').open());exe=json.load((R/'PPU_EXECUTION.json').open());acc=json.load((R/'ACCEPTANCE.json').open())
+  assert exe['passed'] and exe['actual_inference_on_PPU'] and exe['full_forward_attempted']==exe['full_forward_completed']==40
+  assert len(set(exe['samples']))==18 and set(exe['samples'])=={int(x['sample_idx']) for x in selections()}
+@@ -27,7 +34,7 @@
+    hashes[str(p)]=sha_file(p);gt=d['GT_canonical'];pred=d['final_corners'];score=d['final_scores']
+    _,_,historical_validation=verify_historical(sid,alpha,pred,score,d['GT_runtime'])
+    result={.7:{'score':[],'tp':[],'fp':[],'gt':0}}
+-   eval_utils.caluclate_tp_fp(pred,score,gt,result,.7)
++   eval_utils.caluclate_tp_fp(*cpu_tensor_inputs(pred,score,gt),result,.7)
+    persisted=[x for x in summary_rows if int(x['sample_idx'])==sid and float(x['alpha'])==alpha]
+    assert sum(result[.7]['tp'])==sum(int(x['final_TP70']) for x in persisted)
+    assert result[.7]['gt']==len(persisted)
+@@ -59,13 +66,16 @@
+  for p,h in json.load((R/'RAW_INPUT_HASHES.json').open()).items():assert sha_file(p)==h,p
+  assert bytes_in(R)-bytes_in(R/'batches')<=2**30
+  verdict={'passed':True,'sample_count':18,'GT_count':162,'full_model_forward_count':40,'PPU_used':True,'protected_hashes_unchanged':True,'protected_file_count':len(protected),'native_evaluator_checks':checks,'anchor_rows':count,'stage_rows':1944,'core_output_hashes':hashes,'elapsed_seconds':time.monotonic()-start}
+- write_json(R/'INDEPENDENT_VALIDATION.json',verdict)
+- with (R/'RESULT_ARTIFACTS.sha256').open('x') as f:
++ assert not torch.cuda.is_initialized()
++ verdict.update(CUDA_initialized=False,additional_model_forwards=0,source_worker_exit_code=1,validation_scope='offline follow-up; original worker FAILED state preserved',source_run_directory=str(R))
++ write_json(OUT/'INDEPENDENT_VALIDATION.json',verdict)
++ with (OUT/'RESULT_ARTIFACTS.sha256').open('x') as f:
+   for p in sorted(R.rglob('*')):
+-   if p.is_file() and (p.is_relative_to(R/'diagnostics') or p.name in ['PPU_EXECUTION.json','ACCEPTANCE.json','INDEPENDENT_VALIDATION.json','ANALYSIS_SUMMARY.json']):f.write(sha_file(p)+'  '+str(p.relative_to(R))+'\n')
++   if p.is_file() and (p.is_relative_to(R/'diagnostics') or p.name in ['PPU_EXECUTION.json','ACCEPTANCE.json','INDEPENDENT_VALIDATION.json','ANALYSIS_SUMMARY.json']):f.write(sha_file(p)+'  '+str(p)+'\n')
++ signal.alarm(0)
+  print('INDEPENDENT_VALIDATION_PASSED',flush=True)
+ if __name__=='__main__':
+  try:verify()
+  except BaseException:
+   import traceback
+-  write_json(R/'INDEPENDENT_VALIDATION_FAILURE.json',{'passed':False,'traceback':traceback.format_exc()});raise
++  write_json(OUT/'INDEPENDENT_VALIDATION_FAILURE.json',{'passed':False,'traceback':traceback.format_exc()});raise

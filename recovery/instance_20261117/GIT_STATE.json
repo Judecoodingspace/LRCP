@@ -1,0 +1,17 @@
+{
+  "current_branch": "sens/20260918-stage2-paper-lr-5e-4",
+  "HEAD": "44c9aaf8fa62ed3cb07d156696e52136efcf50fb",
+  "branches": {
+    "eval/20260915-stage2-paper-style-postprocess": "cba5d37eaa033b96fed6f875ab068148336644c8",
+    "main": "809ba62aad7c3e45c919e088579e60d94643c9bd",
+    "sens/20260918-stage2-paper-lr-5e-4": "44c9aaf8fa62ed3cb07d156696e52136efcf50fb"
+  },
+  "remote_verified_main": "809ba62aad7c3e45c919e088579e60d94643c9bd",
+  "remote_verified_branches": [
+    "main"
+  ],
+  "target_repository": "https://github.com/Judecoodingspace/LRCP",
+  "visibility": "public",
+  "source_worktree_status": "?? formal_run_logs/",
+  "working_tree_diff": ""
+}

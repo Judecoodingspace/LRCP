@@ -1,0 +1,17 @@
+--- reviewed_proposal.py
++++ retry_bounded_dataset.py
+@@ -21,6 +21,8 @@
+         return len(self.dataset)
+ 
+     def __getitem__(self, index):
++        callback = getattr(self, 'audit_callback', None)
++        if callback: callback('BEFORE_GETITEM', index)
+         item = self.dataset[index]
+         scene = self.dataset.scene_database[index]
+         for key, entry in scene.items():
+@@ -44,4 +46,5 @@
+             params['offset'] = detached
+             self.compacted_count += 1
+             self.released_storage_bytes += storage_bytes - size
++        if callback: callback('AFTER_GETITEM', index)
+         return item

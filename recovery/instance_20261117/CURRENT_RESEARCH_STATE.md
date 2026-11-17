@@ -1,0 +1,11 @@
+# 恢复后继续研究的入口
+
+最近完成阶段：RD3-R5D，正式重执行目录为/workspace/lrcp_d2/codex_reports/RD3_R5D_GEOMETRY_SCORE_COUNTERFACTUAL_v2_20261116，状态R5D_PASS。主独立验收41,023项通过；16条2×2及3条Score交换都是CPU重放。未启动后续阶段。
+
+最新主报告、R5D_RESULT.json、R5D_INDEPENDENT_VALIDATION.json、原始来源SHA、完整ZIP和运行日志均在上述目录。旧R5D目录是保留历史，不与v2合并覆盖。下一轮工作应先读最新主报告及上一轮任务边界，再根据新任务决定范围。
+
+真实模型基线为R5A/B/C已经独立验收的32条原始结果；对应实际原始NPZ由RD3_R5B_SAMPLE_UTILITY/R5B_RAW_SHARD_LOCATOR.csv定位。GT身份使用RD3_R5A_EVIDENCE_AUDIT/R5A_GT_IDENTITY_MAP.csv。冻结输入使用RD3_MESSAGE_UTILITY_PILOT/FROZEN_MANIFEST.json。指定RD3权重及其原始config.yaml均在2026_09_03_21_27_18模型目录。不要用当前sens分支Stage-2训练YAML替代实际冻结config，也不要把eval分支的paper-style后处理套用到已冻结的R5C/R5D原生验收。
+
+本阶段原生后处理：sigmoid Score严格>0.2，无iou_preds质量重标定；保留历史large/z过滤；NMS前原生top1000；BEV IoU>0.15抑制；最后range；Score降序贪心唯一GT匹配，分别IoU≥0.5和≥0.7。具体数值容差、原生排序和large-box历史细节以R5C合同及源码封存为准。恢复不得更改阈值/容差/历史Hash以强行通过验收。
+
+继续CPU复核可以先用已备份R5D ZIP的validate_upload_cpu.py。服务器完整验收还检查历史文件，须在完整历史恢复后执行。预算/claim/manifest记录属于科学证据，恢复时保留其原值；.pid和锁持有者状态不能当作重启后仍在运行的任务。迁移脚本不会启动模型或后续实验。

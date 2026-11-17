@@ -1,0 +1,28 @@
+--- executed_runner.py
++++ proposed_next_run_runner.py
+@@ -8,6 +8,7 @@
+ from pilot_common import *
+ import torch
+ from collector import Collector
++from bounded_offset_cache_proposal import BoundedOffsetDataset
+ 
+ ACTIVE={}
+ STATE={'phase':'A','forward_attempted':0,'forward_completed':0,'PPU_used':False,'completed_samples':[],'cached_samples':[]}
+@@ -98,7 +99,7 @@
+     if p not in raw_hashes:raw_hashes[p]=sha_file(p)
+   p=str(Path(hypes['data_dir'])/'offset_maps'/(item['token']+'.npy'));raw_hashes[p]=sha_file(p)
+  for delay in [0,1,2,3]:
+-  hypes['time_delay']=delay;dataset=build_dataset(hypes,visualize=True,train=False)
++  hypes['time_delay']=delay;dataset=BoundedOffsetDataset(build_dataset(hypes,visualize=True,train=False))
+   loader=DataLoader(dataset,batch_size=1,num_workers=0,shuffle=False,collate_fn=lambda items,base=dataset.collate_batch_test:collate(base,items),pin_memory=False,drop_last=False)
+   count=0
+   for batch in loader:
+@@ -141,7 +142,7 @@
+   if STATE['forward_attempted']>=40:raise RuntimeError('FORWARD_LIMIT')
+   item=next(x for x in batches if x['sample_idx']==sid);path=Path(item['path'])
+   if sha_file(path)!=item['sha256']:raise RuntimeError('FROZEN_ARCHIVE_HASH_CHANGED')
+-  payload=torch.load(path,map_location='cpu');frozen=payload['batch']
++  payload=torch.load(path,map_location='cpu',weights_only=False);frozen=payload['batch']
+   if digest(frozen)!=payload['input_hash']:raise RuntimeError('FROZEN_VALUE_HASH_CHANGED')
+   restore_rng(payload['rng'])
+   # load creates independent CPU storage; clone isolates forward's dictionary mutation.

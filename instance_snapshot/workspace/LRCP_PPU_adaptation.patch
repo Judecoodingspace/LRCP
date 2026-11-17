@@ -1,0 +1,87 @@
+diff --git a/opencood/models/meta_flow.py b/opencood/models/meta_flow.py
+index 5967a62..67c0d52 100644
+--- a/opencood/models/meta_flow.py
++++ b/opencood/models/meta_flow.py
+@@ -9,7 +9,7 @@ import torch
+ import torch.nn as nn
+ import torch.nn.functional as F
+ import math
+-from mmdet.models.utils import LearnedPositionalEncoding
++from opencood.models.sub_modules.learned_positional_encoding import LearnedPositionalEncoding
+ from opencood.models.sub_modules.defor_encoder_multi_scale_single_agent import Block
+ from torch.nn.init import normal_
+ 
+diff --git a/opencood/models/sub_modules/defor_att_bev_backbone_bk.py b/opencood/models/sub_modules/defor_att_bev_backbone_bk.py
+index fbb631e..6b12a8b 100644
+--- a/opencood/models/sub_modules/defor_att_bev_backbone_bk.py
++++ b/opencood/models/sub_modules/defor_att_bev_backbone_bk.py
+@@ -8,7 +8,7 @@ import torch.nn as nn
+ from opencood.models.fuse_modules.deformable_attn import DeforAttFusion
+ from opencood.models.sub_modules.auto_encoder import AutoEncoder
+ 
+-from mmdet.models.utils import LearnedPositionalEncoding
++from opencood.models.sub_modules.learned_positional_encoding import LearnedPositionalEncoding
+ 
+ DEBUG = False
+ 
+diff --git a/opencood/models/sub_modules/defor_encoder.py b/opencood/models/sub_modules/defor_encoder.py
+index a2908ac..03c3e2b 100644
+--- a/opencood/models/sub_modules/defor_encoder.py
++++ b/opencood/models/sub_modules/defor_encoder.py
+@@ -9,7 +9,7 @@ from opencood.utils.mmcv_utils import constant_init, xavier_init
+ from opencood.models.sub_modules.torch_transformation_utils import warp_affine_simple
+ # from mmcv.ops.multi_scale_deform_attn import multi_scale_deformable_attn_pytorch # use the pytorch version;
+ from opencood.utils.ms_deform_attn_ops.functions import MSDeformAttnFunction
+-from mmdet.models.utils import LearnedPositionalEncoding
++from opencood.models.sub_modules.learned_positional_encoding import LearnedPositionalEncoding
+ from opencood.models.sub_modules.optical_flow import FlowPred
+ from torch.nn.init import normal_
+ 
+diff --git a/opencood/models/sub_modules/defor_encoder_multi_scale.py b/opencood/models/sub_modules/defor_encoder_multi_scale.py
+index 6f6d9fc..ba148d3 100644
+--- a/opencood/models/sub_modules/defor_encoder_multi_scale.py
++++ b/opencood/models/sub_modules/defor_encoder_multi_scale.py
+@@ -9,7 +9,7 @@ from opencood.utils.mmcv_utils import constant_init, xavier_init
+ from opencood.models.sub_modules.torch_transformation_utils import warp_affine_simple
+ # from mmcv.ops.multi_scale_deform_attn import multi_scale_deformable_attn_pytorch # use the pytorch version;
+ from opencood.utils.ms_deform_attn_ops.functions import MSDeformAttnFunction
+-from mmdet.models.utils import LearnedPositionalEncoding
++from opencood.models.sub_modules.learned_positional_encoding import LearnedPositionalEncoding
+ from opencood.models.sub_modules.optical_flow import FlowPred
+ from torch.nn.init import normal_
+ 
+diff --git a/opencood/models/sub_modules/defor_encoder_multi_scale_single_agent.py b/opencood/models/sub_modules/defor_encoder_multi_scale_single_agent.py
+index d3b544e..a77f35f 100644
+--- a/opencood/models/sub_modules/defor_encoder_multi_scale_single_agent.py
++++ b/opencood/models/sub_modules/defor_encoder_multi_scale_single_agent.py
+@@ -9,7 +9,7 @@ from opencood.utils.mmcv_utils import constant_init, xavier_init
+ from opencood.models.sub_modules.torch_transformation_utils import warp_affine_simple
+ # from mmcv.ops.multi_scale_deform_attn import multi_scale_deformable_attn_pytorch # use the pytorch version;
+ from opencood.utils.ms_deform_attn_ops.functions import MSDeformAttnFunction
+-from mmdet.models.utils import LearnedPositionalEncoding
++from opencood.models.sub_modules.learned_positional_encoding import LearnedPositionalEncoding
+ from opencood.models.sub_modules.optical_flow import FlowPred
+ from torch.nn.init import normal_
+ 
+diff --git a/opencood/utils/ms_deform_attn_ops/src/cuda/ms_deform_attn_cuda.cu b/opencood/utils/ms_deform_attn_ops/src/cuda/ms_deform_attn_cuda.cu
+index d6d5836..5ea874b 100644
+--- a/opencood/utils/ms_deform_attn_ops/src/cuda/ms_deform_attn_cuda.cu
++++ b/opencood/utils/ms_deform_attn_ops/src/cuda/ms_deform_attn_cuda.cu
+@@ -61,7 +61,7 @@ at::Tensor ms_deform_attn_cuda_forward(
+     for (int n = 0; n < batch/im2col_step_; ++n)
+     {
+         auto columns = output_n.select(0, n);
+-        AT_DISPATCH_FLOATING_TYPES(value.type(), "ms_deform_attn_forward_cuda", ([&] {
++        AT_DISPATCH_FLOATING_TYPES(value.scalar_type(), "ms_deform_attn_forward_cuda", ([&] {
+             ms_deformable_im2col_cuda(at::cuda::getCurrentCUDAStream(),
+                 value.data<scalar_t>() + n * im2col_step_ * per_value_size,
+                 spatial_shapes.data<int64_t>(),
+@@ -131,7 +131,7 @@ std::vector<at::Tensor> ms_deform_attn_cuda_backward(
+     for (int n = 0; n < batch/im2col_step_; ++n)
+     {
+         auto grad_output_g = grad_output_n.select(0, n);
+-        AT_DISPATCH_FLOATING_TYPES(value.type(), "ms_deform_attn_backward_cuda", ([&] {
++        AT_DISPATCH_FLOATING_TYPES(value.scalar_type(), "ms_deform_attn_backward_cuda", ([&] {
+             ms_deformable_col2im_cuda(at::cuda::getCurrentCUDAStream(),
+                                     grad_output_g.data<scalar_t>(),
+                                     value.data<scalar_t>() + n * im2col_step_ * per_value_size,

@@ -1,0 +1,81 @@
+--- /workspace/lrcp_d2/paired_probe_common910.py
++++ /workspace/lrcp_d2/p3a_capture_k3.py
+@@ -40,9 +40,65 @@
+         return None
+     return _out
+ 
+-DELAYS = [0, 1, 2, 3, 4, 5]
++DELAYS = [0, 1, 2, 3]
+ ALPHAS = [1.0, 0.5, 0.0]
+ MAX_BATCHES = 1000000000
++
++import os as _p3_os
++import numpy as _p3_np
++from pathlib import Path as _p3_Path
++
++_P3_ROOT = _p3_Path(_p3_os.environ["P3_OUTPUT_DIR"])
++_P3_ROOT.mkdir(parents=True, exist_ok=False)
++
++def _p3_array(tensor):
++    return tensor.detach().cpu().numpy().copy()
++
++def _p3_save_case(sample_idx, alpha, result):
++    sid = str(sample_idx)
++    assert sid.isdecimal(), f"Invalid sample ID: {sid}"
++
++    gt_tensor = result["gt_box_tensor"]
++    pred_tensor = result["pred_box_tensor"]
++    score_tensor = result["pred_score"]
++
++    assert gt_tensor is not None
++    gt = _p3_array(gt_tensor)
++
++    if pred_tensor is None:
++        pred = _p3_np.empty(
++            (0,) + gt.shape[1:],
++            dtype=gt.dtype
++        )
++        scores = _p3_np.empty(
++            (0,), dtype=_p3_np.float32
++        )
++    else:
++        assert score_tensor is not None
++        pred = _p3_array(pred_tensor)
++        scores = _p3_array(score_tensor).reshape(-1)
++
++    assert len(pred) == len(scores)
++    assert pred.ndim == 3
++    assert gt.ndim == 3
++
++    path = _P3_ROOT / (
++        f"sample_{sid}_alpha_{alpha:.1f}.npz"
++    )
++
++    assert not path.exists(), (
++        f"Duplicate capture: {path}"
++    )
++
++    _p3_np.savez_compressed(
++        path,
++        sample_idx=_p3_np.asarray(sid),
++        alpha=_p3_np.asarray(alpha),
++        pred_boxes=pred,
++        pred_scores=scores,
++        gt_boxes=gt
++    )
++
+ 
+ random.seed(303)
+ np.random.seed(303)
+@@ -139,6 +195,11 @@
+                     )
+                 )
+ 
++                if delay == 3 and alpha in (0.0, 1.0):
++                    _p3_save_case(
++                        ego["sample_idx"], alpha, result
++                    )
++
+                 for threshold in (0.5, 0.7):
+                     eval_utils.caluclate_tp_fp(
+                         result["pred_box_tensor"],

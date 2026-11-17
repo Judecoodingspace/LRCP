@@ -1,0 +1,13 @@
+# This directory is an exact source whitelist. Stage only manifest-listed files.
+*.npz
+*.npy
+*.pt
+*.pth
+*.pkl
+*.zip
+*.tar
+*.so
+__pycache__/
+.env
+.env.*
+*.pid

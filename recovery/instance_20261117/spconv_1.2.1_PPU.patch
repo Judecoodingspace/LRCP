@@ -1,0 +1,81 @@
+diff --git a/include/spconv/reordering.cu.h b/include/spconv/reordering.cu.h
+index a0c8b48..4c01662 100644
+--- a/include/spconv/reordering.cu.h
++++ b/include/spconv/reordering.cu.h
+@@ -14,8 +14,7 @@
+ 
+ #ifndef REORDERING_CU_H_
+ #define REORDERING_CU_H_
+-#include <THC/THCAtomics.cuh>
+-#include <THC/THCNumerics.cuh>
++#include <ATen/cuda/Atomic.cuh>
+ #include <cuda_fp16.h>
+ #include <tensorview/kernel_utils.h>
+ 
+diff --git a/src/cuhash/CMakeLists.txt b/src/cuhash/CMakeLists.txt
+index 8c1051f..a3a9a2d 100644
+--- a/src/cuhash/CMakeLists.txt
++++ b/src/cuhash/CMakeLists.txt
+@@ -4,8 +4,8 @@ else()
+     add_library(cuhash SHARED hash_functions.cu hash_table.cpp hash_table.cu hash_functions.cpp)
+ endif()
+ target_include_directories(cuhash PRIVATE ${ALL_INCLUDE} )
+-set_property(TARGET cuhash PROPERTY CUDA_STANDARD 14)
+-set_property(TARGET cuhash PROPERTY CXX_STANDARD 14)
++set_property(TARGET cuhash PROPERTY CUDA_STANDARD 17)
++set_property(TARGET cuhash PROPERTY CXX_STANDARD 17)
+ set_target_properties(cuhash PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+ set_target_properties(cuhash PROPERTIES CUDA_RESOLVE_DEVICE_SYMBOLS ON)
+ if(NOT WIN32)
+@@ -17,8 +17,8 @@ install (TARGETS cuhash DESTINATION lib)
+ if (SPCONV_BuildTests)
+     add_executable(cuhash_test main.cc)
+     target_include_directories(cuhash_test PRIVATE ${ALL_INCLUDE} )
+-    set_property(TARGET cuhash_test PROPERTY CUDA_STANDARD 14)
+-    set_property(TARGET cuhash_test PROPERTY CXX_STANDARD 14)
++    set_property(TARGET cuhash_test PROPERTY CUDA_STANDARD 17)
++    set_property(TARGET cuhash_test PROPERTY CXX_STANDARD 17)
+     set_target_properties(cuhash_test PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+     target_link_libraries(cuhash_test PRIVATE ${ALL_LIBS} cuhash)
+     install (TARGETS cuhash_test DESTINATION bin)
+diff --git a/src/spconv/CMakeLists.txt b/src/spconv/CMakeLists.txt
+index effcdc7..aa04226 100644
+--- a/src/spconv/CMakeLists.txt
++++ b/src/spconv/CMakeLists.txt
+@@ -11,8 +11,8 @@ endif()
+ 
+ 
+ target_include_directories(spconv PRIVATE ${ALL_INCLUDE} )
+-set_property(TARGET spconv PROPERTY CUDA_STANDARD 14)
+-set_property(TARGET spconv PROPERTY CXX_STANDARD 14)
++set_property(TARGET spconv PROPERTY CUDA_STANDARD 17)
++set_property(TARGET spconv PROPERTY CXX_STANDARD 17)
+ set_target_properties(spconv PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+ if (SPCONV_BuildCUDA)
+     target_link_libraries(spconv PRIVATE ${ALL_LIBS} cuhash)
+diff --git a/src/utils/CMakeLists.txt b/src/utils/CMakeLists.txt
+index 4ca0234..c162ba2 100644
+--- a/src/utils/CMakeLists.txt
++++ b/src/utils/CMakeLists.txt
+@@ -3,8 +3,8 @@ if (SPCONV_BuildCUDA)
+     set_target_properties(spconv_nms PROPERTIES VERSION ${PROJECT_VERSION})
+     set_target_properties(spconv_nms PROPERTIES SOVERSION 1)
+     target_include_directories(spconv_nms PRIVATE ${ALL_INCLUDE})
+-    set_property(TARGET spconv_nms PROPERTY CXX_STANDARD 14)
+-    set_property(TARGET spconv_nms PROPERTY CUDA_STANDARD 14)
++    set_property(TARGET spconv_nms PROPERTY CXX_STANDARD 17)
++    set_property(TARGET spconv_nms PROPERTY CUDA_STANDARD 17)
+     set_property(TARGET spconv_nms PROPERTY POSITION_INDEPENDENT_CODE ON)
+     target_link_libraries(spconv_nms ${CUDA_CUDART})
+     install (TARGETS spconv_nms DESTINATION lib)
+@@ -15,8 +15,8 @@ set_target_properties(spconv_utils PROPERTIES VERSION ${PROJECT_VERSION})
+ set_target_properties(spconv_utils PROPERTIES SOVERSION 1)
+ target_include_directories(spconv_utils PRIVATE ${ALL_INCLUDE}
+                     ${PROJECT_SOURCE_DIR}/third_party/pybind11/include)
+-set_property(TARGET spconv_utils PROPERTY CXX_STANDARD 14)
+-set_property(TARGET spconv_utils PROPERTY CUDA_STANDARD 14)
++set_property(TARGET spconv_utils PROPERTY CXX_STANDARD 17)
++set_property(TARGET spconv_utils PROPERTY CUDA_STANDARD 17)
+ set_target_properties(spconv_utils PROPERTIES PREFIX "${PYTHON_MODULE_PREFIX}"
+                                          SUFFIX "${PYTHON_MODULE_EXTENSION}")
+ if (SPCONV_BuildCUDA)
