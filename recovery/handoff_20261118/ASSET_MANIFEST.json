@@ -1,0 +1,79 @@
+{
+  "schema": "LRCP_HANDOFF_ASSETS_V1",
+  "minimum": {
+    "name": "PRIVATE_RD3_MINIMUM_CONTINUATION.tar",
+    "bytes": 1425346560,
+    "sha256": "26b3d6a4e9ee6cf4feba2d7949e3632eed181db9c631f8daa143c312b53c78a4"
+  },
+  "dataset_metadata": {
+    "name": "PRIVATE_DATASET_METADATA_20261118.tar.gz",
+    "bytes": 52802233,
+    "sha256": "065fed8d9ecd440f81d6feea6d84cddc032a1a229c24c0fddb2d3483739dde23",
+    "members": 10
+  },
+  "PPU_compatibility": {
+    "name": "PRIVATE_PPU_COMPAT_20261118.tar.gz",
+    "bytes": 27848167,
+    "sha256": "8ee2c18124f933d9b8c3d2e803c4be7ee32be969ac90eb4171660dd6dabb0059",
+    "members": 12
+  },
+  "raw_dataset_archives": [
+    {
+      "name": "lidar1.zip",
+      "bytes": 21474099823,
+      "sha256": "44821d0127f2cd9e38b15e5f6722a8de97f32e7e05f98a4f1522de93b3797a4c"
+    },
+    {
+      "name": "lidar2.zip",
+      "bytes": 21474145305,
+      "sha256": "063d6e686e2079fa6156c3fe60b0d0b959715e3fff0b965ce51de3c25c227695"
+    },
+    {
+      "name": "lidar3.zip",
+      "bytes": 3351285243,
+      "sha256": "99276f2fd05302115fd67ea2794e93dcbcbf382198e25fd26601a572ab41c4be"
+    },
+    {
+      "name": "lidarseg.zip",
+      "bytes": 144487866,
+      "sha256": "1388f9dc53c0d00beffd44c0cc64c0e278b168cd047fe565e0401d43ce463c56"
+    },
+    {
+      "name": "maps.zip",
+      "bytes": 723438,
+      "sha256": "4e6a596e9947f1a60b57960a67e7bc1da1844ca6060f6fe25f34ec13131ba92f"
+    },
+    {
+      "name": "v2.0.zip",
+      "bytes": 1465794715,
+      "sha256": "aa27a5903a8d287c7deaa9b2d74bdba9541b52199717d096c9810c93528413f4"
+    }
+  ],
+  "offset_map_archive": {
+    "name": "offset_maps_20260902.tar",
+    "bytes": 37514250240,
+    "sha256": "dfd345119b8adc01ca4da989d976f62a8223b56c5be3734c5e7bcb17ec579630",
+    "array_count": 10000,
+    "array_total_bytes": 37505280000
+  },
+  "CPU_wheels": [
+    {
+      "name": "PyYAML-6.0-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl",
+      "bytes": 682157,
+      "sha256": "f84fbc98b019fef2ee9a1cb3ce93e3187a6df0b2538a651bfb890254ba9f90b5"
+    },
+    {
+      "name": "Shapely-1.8.5.post1-cp310-cp310-manylinux_2_12_x86_64.manylinux2010_x86_64.whl",
+      "bytes": 2042386,
+      "sha256": "ec14ceca36f67cb48b34d02d7f65a9acae15cd72b48e303531893ba4a960f3ea"
+    },
+    {
+      "name": "numpy-1.23.5-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "bytes": 17059657,
+      "sha256": "5e05b1c973a9f858c74367553e236f287e749465f773328c8ef31abe18f691e1"
+    }
+  ],
+  "private_assets_uploaded_to_GitHub": false,
+  "torch_imported": false,
+  "CUDA_initializations": 0
+}
