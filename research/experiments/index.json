@@ -9,7 +9,8 @@
       "run_id": "start.V3JpuM",
       "report": "rd3-324-localization-robustness.md",
       "result": "244/244 条 CPU 重放完成，4 条零扰动基线复核通过。候选 6512 始终通过 NMS 并保留到最终输出；GT 29118 在 IoU 0.5 下 244 次匹配，在 0.7 下 128 次匹配、116 次未匹配。78 次状态翻转与 6512 的 IoU 跨线逐条一致。",
-      "conclusion": "这是单帧、单候选、模型输出层面的 IoU 阈值边界效应。1 mm 平移已使 G-B 在 3/8 个方向从漏检变为检出。50 mm 有 3/8、100 mm 有 4/8 个方向的 F IoU 低于 G-B，这些配对均低于 0.7。该证据支持局部扰动敏感性，真实噪声鲁棒性和通信时延效应未验证。"
+      "conclusion": "这是单帧、单候选、模型输出层面的 IoU 阈值边界效应。1 mm 平移已使 G-B 在 3/8 个方向从漏检变为检出。50 mm 有 3/8、100 mm 有 4/8 个方向的 F IoU 低于 G-B，这些配对均低于 0.7。该证据支持局部扰动敏感性，真实噪声鲁棒性和通信时延效应未验证。",
+      "issue": "https://github.com/Judecoodingspace/LRCP/issues/1"
     },
     {
       "id": "rd4-d0-independent-age-feasibility",
@@ -18,7 +19,8 @@
       "run_id": "RD4D0_20261124_173647_KKSrQo",
       "report": "rd4-d0-independent-age-feasibility.md",
       "result": "核验 8 个原 RD3 冻结样本和 32 条历史模型结果。common910 的索引及文本清单齐全，当时本地有 8 份对应冻结 batch。以原 test PKL 生成 136 条观测描述和 64 套五帧历史窗口。两档和三档矩阵分别有 72、128 条候选，已验收可执行条件为 0。",
-      "conclusion": "原生评估加载器对 Remote 使用统一 lag。低层逐槽接口可以承载不同历史和时码，逐 Agent 加载需要适配。原始传感器元数据和点云当时缺失。补偿审计定位到预测位移注入边界，未实施干预。"
+      "conclusion": "原生评估加载器对 Remote 使用统一 lag。低层逐槽接口可以承载不同历史和时码，逐 Agent 加载需要适配。原始传感器元数据和点云当时缺失。补偿审计定位到预测位移注入边界，未实施干预。",
+      "issue": "https://github.com/Judecoodingspace/LRCP/issues/2"
     },
     {
       "id": "rd4-d0-r1-source-recovery",
@@ -27,7 +29,8 @@
       "run_id": "RD4D0R1_20261124_203814_wB5LsL",
       "report": "rd4-d0-r1-source-recovery.md",
       "result": "官方 metadata ZIP 已通过 SHA256 核验。通过 HTTP Range 恢复 136/136 个所需 LiDAR 成员，无整包 LiDAR 下载。136 条原始观测及 64 套历史窗口通过 token、通道、位姿和前链核验。8 个原始 offset NPY 未找到。",
-      "conclusion": "原始采集时间字段与帧序号逐条一致，lag 0 只证实同发布帧，精确物理毫秒及亚帧同步未验证。725/C 在 lag 3 到 lag 7 的平移差为 8.350459 m，属于刚体位姿变化。根据人工决策，继续使用 5 Hz 名义观测年龄及原生五帧 warp，选 Design B（lag 0/3）进入 CPU 适配阶段。"
+      "conclusion": "原始采集时间字段与帧序号逐条一致，lag 0 只证实同发布帧，精确物理毫秒及亚帧同步未验证。725/C 在 lag 3 到 lag 7 的平移差为 8.350459 m，属于刚体位姿变化。根据人工决策，继续使用 5 Hz 名义观测年龄及原生五帧 warp，选 Design B（lag 0/3）进入 CPU 适配阶段。",
+      "issue": "https://github.com/Judecoodingspace/LRCP/issues/3"
     },
     {
       "id": "rd4-d0-r2-loader-equivalence",
@@ -36,7 +39,8 @@
       "run_id": "RD4D0R2_20261124_211604_MoklD9",
       "report": "rd4-d0-r2-loader-equivalence.md",
       "result": "Design B（8 样本，B/C 各为缺席、lag 0、lag 3）72/72 条通过 CPU 输入验收，模型运行验收 0/72。Ego、当前 GT、anchor 和评价坐标系固定，改变一方年龄时另一方输入与 A↔Remote 变换保持一致。原始 NPY 为 0/8，CPU 适配使用真实冻结 lag 3 监督 slice 和原生 lag 0 零监督语义。",
-      "conclusion": "目前不建议启动 D1 模型 smoke。需要先验收生产体素化与张量接口，或明确批准统一的确定性预处理作为新协议并验证其接口。缺席槽的全网络隔离、无掩码与全 True 掩码等价、输出与后处理复现仍是强制门禁。"
+      "conclusion": "目前不建议启动 D1 模型 smoke。需要先验收生产体素化与张量接口，或明确批准统一的确定性预处理作为新协议并验证其接口。缺席槽的全网络隔离、无掩码与全 True 掩码等价、输出与后处理复现仍是强制门禁。",
+      "issue": "https://github.com/Judecoodingspace/LRCP/issues/4"
     }
   ]
 }
