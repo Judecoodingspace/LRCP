@@ -1,5 +1,5 @@
 {
-  "current_stage": "RD4-D0-R2",
+  "current_stage": "RD4-D0-R3",
   "d1_started": false,
   "rounds": [
     {
@@ -41,6 +41,16 @@
       "result": "Design B（8 样本，B/C 各为缺席、lag 0、lag 3）72/72 条通过 CPU 输入验收，模型运行验收 0/72。Ego、当前 GT、anchor 和评价坐标系固定，改变一方年龄时另一方输入与 A↔Remote 变换保持一致。原始 NPY 为 0/8，CPU 适配使用真实冻结 lag 3 监督 slice 和原生 lag 0 零监督语义。",
       "conclusion": "目前不建议启动 D1 模型 smoke。需要先验收生产体素化与张量接口，或明确批准统一的确定性预处理作为新协议并验证其接口。缺席槽的全网络隔离、无掩码与全 True 掩码等价、输出与后处理复现仍是强制门禁。",
       "issue": "https://github.com/Judecoodingspace/LRCP/issues/4"
+    },
+    {
+      "id": "rd4-d0-r3-deterministic-protocol",
+      "title": "RD4-D0-R3｜确定性预处理协议冻结与生产接口验收",
+      "status": "PARTIAL",
+      "run_id": "RD4D0R3_20261124_222236_ZMlfqV",
+      "report": "rd4-d0-r3-deterministic-protocol.md",
+      "issue": "https://github.com/Judecoodingspace/LRCP/issues/5",
+      "result": "72/72 NumPy CPU；698 条逐数组位级一致，含 42 条独立进程；新增模型前向 0。",
+      "conclusion": "生产 spconv 与 Torch CPU 封装未验收，暂不授权 8 次 Smoke。"
     }
   ]
 }
