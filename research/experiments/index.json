@@ -1,5 +1,5 @@
 {
-  "current_stage": "RD4-D1-PILOT",
+  "current_stage": "RD4-D2-R1",
   "d1_started": true,
   "rounds": [
     {
@@ -113,6 +113,16 @@
       "issue": "https://github.com/Judecoodingspace/LRCP/issues/9",
       "result": "72/72 条捕获哈希通过，68 次新增 forward 全部返回并提交，复用 4 条 Smoke，0 次失败。正式 CPU 统计及六张图完成。",
       "conclusion": "固定 8 样本、3 场景，B0+C0 的 AP50/AP70 为 85.57%/83.03%；B3+C3 为 83.36%/78.98%。单源 C 从 lag3 到 lag0 的 AP70 增幅 (5.49 pp) 大于单源 B (0.21 pp)。结果限于两档名义年龄和本 Pilot。"
+    },
+    {
+      "id": "rd4-d2-r1-age-mechanism",
+      "title": "RD4-D2-R1｜观测年龄效用的 GT 级机制分析",
+      "status": "PASS",
+      "run_id": "RD4D2R1_eUmvYD",
+      "report": "rd4-d2-r1-age-mechanism.md",
+      "issue": "https://github.com/Judecoodingspace/LRCP/issues/10",
+      "result": "48 个年龄对照、96 个边际、32 个交互均核验。真实 forward 和 GPU/PPU 均为0。",
+      "conclusion": "C 单源 AP70 +5.49 pp 见三个恢复匹配和净 FP−6，B 的 +0.21 pp 集中在样本384。17条有害边际均增 FP。上游待干预。"
     }
   ],
   "formal_pilot_remaining": 0,

@@ -21,3 +21,5 @@
 - [RD4-D1-PILOT-PREP｜正式 Pilot 终端运行准备](rd4-d1-pilot-prep.md) · **READY_FOR_MANUAL_PILOT** · `RD4PILOT_apyoxH` · 新增完整 forward 0。
 
 - [RD4-D1 Pilot｜正式运行验收与两档名义年龄分析](rd4-d1-pilot-final.md) · **PASS** · `RD4PILOT_apyoxH` · [Issue #9](https://github.com/Judecoodingspace/LRCP/issues/9) · 72/72，新增 forward 68。
+
+- [RD4-D2-R1｜观测年龄效用的 GT 级机制分析](rd4-d2-r1-age-mechanism.md) · **PASS** · `RD4D2R1_eUmvYD` · [本轮 Issue](https://github.com/Judecoodingspace/LRCP/issues/10)。
