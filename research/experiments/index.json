@@ -1,6 +1,6 @@
 {
-  "current_stage": "RD4-ENV-R2",
-  "d1_started": false,
+  "current_stage": "RD4-D1-SMOKE",
+  "d1_started": true,
   "rounds": [
     {
       "id": "rd3-324-localization-robustness",
@@ -78,7 +78,23 @@
       "report": "rd4-env-r2-runtime-build.md",
       "issue": "https://github.com/Judecoodingspace/LRCP/issues/7",
       "result": "MSDA 在 PPU 的 FP32/FP64 独立前向和一组梯度对照通过；spconv CPU 体素化、后处理及 epoch19 CPU 严格加载通过。",
-      "conclusion": "同过滤 168/168 逐字节一致；原 loader 主扫 40/40 一致、历史扫 128/128 有真实点集差异。E7 等待人工协议决策，D1 未启动。"
+      "conclusion": "同过滤 168/168 逐字节一致；原 loader 主扫 40/40 一致、历史扫 128/128 有真实点集差异。E7 等待人工协议决策，D1 未启动。",
+      "history_filter_correction": {
+        "report": "rd4-d1-smoke.md",
+        "issue": "https://github.com/Judecoodingspace/LRCP/issues/8",
+        "conclusion": "实际原生 loader 对历史扫执行自车过滤。ENV-R2 的未过滤体素化分支为人工对照。"
+      }
+    },
+    {
+      "id": "rd4-d1-smoke",
+      "title": "RD4-D1-SMOKE｜V1 协议收口与首次真实模型运行验收",
+      "status": "PASS_READY_FOR_PILOT",
+      "run_id": "RD4D1SMOKE_Sgm9MD",
+      "report": "rd4-d1-smoke.md",
+      "issue": "https://github.com/Judecoodingspace/LRCP/issues/8",
+      "result": "V1 保留，72/72 CPU 输入，168/168 原生体素逐字节一致，8/8 真实 Smoke 门禁通过。",
+      "conclusion": "S01 输出复现零误差，测试的缺席 C 槽隔离通过。4 条正式候选可复用，剩余 68 条未运行。"
     }
-  ]
+  ],
+  "formal_pilot_remaining": 68
 }
