@@ -50,7 +50,15 @@
       "report": "rd4-d0-r3-deterministic-protocol.md",
       "issue": "https://github.com/Judecoodingspace/LRCP/issues/5",
       "result": "72/72 NumPy CPU；698 条逐数组位级一致，含 42 条独立进程；新增模型前向 0。",
-      "conclusion": "生产 spconv 与 Torch CPU 封装未验收，暂不授权 8 次 Smoke。"
+      "conclusion": "生产 spconv 与 Torch CPU 封装未验收，暂不授权 8 次 Smoke。",
+      "supplement": {
+        "report": "rd4-d0-r3-cpu-interface-supplement.md",
+        "status": "PARTIAL",
+        "torch_cpu_passed": 72,
+        "model_forwards": 0,
+        "production_voxelizer": "BLOCKED_MISSING_SPCONV_AND_OPEN3D",
+        "issue": "https://github.com/Judecoodingspace/LRCP/issues/5"
+      }
     }
   ]
 }

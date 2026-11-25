@@ -9,3 +9,5 @@
 - [RD4-D0-R3｜确定性预处理协议冻结与生产接口验收](rd4-d0-r3-deterministic-protocol.md) · **PARTIAL** · `RD4D0R3_20261124_222236_ZMlfqV` · [Issue #5](https://github.com/Judecoodingspace/LRCP/issues/5)
 
 当前研究停在 **RD4-D0-R3**。72 条 NumPy CPU 输入已验收，生产组件和 Torch CPU 封装仍待验证，D1 尚未启动。后续每轮完成时，在此索引登记报告、机器可读状态及对应 GitHub Issue。
+
+- [RD4-D0-R3 补充 CPU 接口验收](rd4-d0-r3-cpu-interface-supplement.md) · **PARTIAL** · Torch CPU 72/72 · [Issue #5](https://github.com/Judecoodingspace/LRCP/issues/5)
