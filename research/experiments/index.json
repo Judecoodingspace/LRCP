@@ -1,5 +1,5 @@
 {
-  "current_stage": "RD4-D1-SMOKE",
+  "current_stage": "RD4-D1-PILOT-PREP",
   "d1_started": true,
   "rounds": [
     {
@@ -94,7 +94,17 @@
       "issue": "https://github.com/Judecoodingspace/LRCP/issues/8",
       "result": "V1 保留，72/72 CPU 输入，168/168 原生体素逐字节一致，8/8 真实 Smoke 门禁通过。",
       "conclusion": "S01 输出复现零误差，测试的缺席 C 槽隔离通过。4 条正式候选可复用，剩余 68 条未运行。"
+    },
+    {
+      "id": "rd4-d1-pilot-prep",
+      "title": "RD4-D1-PILOT-PREP｜正式 Pilot 终端运行准备",
+      "status": "READY_FOR_MANUAL_PILOT",
+      "run_id": "RD4PILOT_apyoxH",
+      "report": "rd4-d1-pilot-prep.md",
+      "result": "复用 4/72，72 条 CPU 输入通过，68 条待执行已冻结。新增完整 forward 为 0。",
+      "conclusion": "终端预检、监控、暂停、恢复和科学统计工具准备完成，正式执行由用户手动启动。"
     }
   ],
-  "formal_pilot_remaining": 68
+  "formal_pilot_remaining": 68,
+  "formal_pilot_started": false
 }

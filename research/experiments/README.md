@@ -17,3 +17,5 @@
 - [RD4-ENV-R2｜运行环境重建与原生扩展验收](rd4-env-r2-runtime-build.md) · **PARTIAL** · `ENV_R2_hR5FJq` · [Issue #7](https://github.com/Judecoodingspace/LRCP/issues/7)
 
 - [RD4-D1-SMOKE｜V1 协议收口与首次真实模型运行验收](rd4-d1-smoke.md) · **PASS_READY_FOR_PILOT** · `RD4D1SMOKE_Sgm9MD` · [Issue #8](https://github.com/Judecoodingspace/LRCP/issues/8) · 含 ENV-R2 历史过滤补充说明。
+
+- [RD4-D1-PILOT-PREP｜正式 Pilot 终端运行准备](rd4-d1-pilot-prep.md) · **READY_FOR_MANUAL_PILOT** · `RD4PILOT_apyoxH` · 新增完整 forward 0。
