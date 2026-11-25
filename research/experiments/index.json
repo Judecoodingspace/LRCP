@@ -1,5 +1,5 @@
 {
-  "current_stage": "RD4-D2-R1",
+  "current_stage": "RD4-D4-R1-PREP",
   "d1_started": true,
   "rounds": [
     {
@@ -123,6 +123,16 @@
       "issue": "https://github.com/Judecoodingspace/LRCP/issues/10",
       "result": "48 个年龄对照、96 个边际、32 个交互均核验。真实 forward 和 GPU/PPU 均为0。",
       "conclusion": "C 单源 AP70 +5.49 pp 见三个恢复匹配和净 FP−6，B 的 +0.21 pp 集中在样本384。17条有害边际均增 FP。上游待干预。"
+    },
+    {
+      "id": "rd4-d4-r1-independent-validation-prep",
+      "title": "RD4-D4-R1-PREP｜独立场景复验准备",
+      "status": "READY_FOR_MANUAL_VALIDATION",
+      "run_id": "RD4D4R1PREP_epZeZe",
+      "report": "rd4-d4-r1-independent-validation-prep.md",
+      "issue": "https://github.com/Judecoodingspace/LRCP/issues/11",
+      "result": "6 场景、12 帧、108 条 CPU 输入通过，全条件真实推理 0/108。无额外 Smoke。",
+      "conclusion": "与原 Pilot 及已恢复的配置训练和验证场景无交集。所有入选场景有较早研究暴露，冻结抽样未读取模型结果。等待 Notebook 手动启动。"
     }
   ],
   "formal_pilot_remaining": 0,
