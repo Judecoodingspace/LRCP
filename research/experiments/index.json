@@ -1,5 +1,5 @@
 {
-  "current_stage": "RD4-ENV-R1",
+  "current_stage": "RD4-ENV-R2",
   "d1_started": false,
   "rounds": [
     {
@@ -69,6 +69,16 @@
       "issue": "https://github.com/Judecoodingspace/LRCP/issues/6",
       "result": "历史环境未恢复，现成 Torch CPU 72/72 证据沿用；9 个旧 ELF 静态审计。",
       "conclusion": "须批准相容 MSDeformAttn 和生产 spconv 构建、缺失依赖安装。D1 未启动。"
+    },
+    {
+      "id": "rd4-env-r2-runtime-build",
+      "title": "RD4-ENV-R2｜运行环境重建与原生扩展验收",
+      "status": "PARTIAL",
+      "run_id": "ENV_R2_hR5FJq",
+      "report": "rd4-env-r2-runtime-build.md",
+      "issue": "https://github.com/Judecoodingspace/LRCP/issues/7",
+      "result": "MSDA 在 PPU 的 FP32/FP64 独立前向和一组梯度对照通过；spconv CPU 体素化、后处理及 epoch19 CPU 严格加载通过。",
+      "conclusion": "同过滤 168/168 逐字节一致；原 loader 主扫 40/40 一致、历史扫 128/128 有真实点集差异。E7 等待人工协议决策，D1 未启动。"
     }
   ]
 }
