@@ -19,3 +19,5 @@
 - [RD4-D1-SMOKE｜V1 协议收口与首次真实模型运行验收](rd4-d1-smoke.md) · **PASS_READY_FOR_PILOT** · `RD4D1SMOKE_Sgm9MD` · [Issue #8](https://github.com/Judecoodingspace/LRCP/issues/8) · 含 ENV-R2 历史过滤补充说明。
 
 - [RD4-D1-PILOT-PREP｜正式 Pilot 终端运行准备](rd4-d1-pilot-prep.md) · **READY_FOR_MANUAL_PILOT** · `RD4PILOT_apyoxH` · 新增完整 forward 0。
+
+- [RD4-D1 Pilot｜正式运行验收与两档名义年龄分析](rd4-d1-pilot-final.md) · **PASS** · `RD4PILOT_apyoxH` · [Issue #9](https://github.com/Judecoodingspace/LRCP/issues/9) · 72/72，新增 forward 68。

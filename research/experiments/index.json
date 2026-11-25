@@ -1,5 +1,5 @@
 {
-  "current_stage": "RD4-D1-PILOT-PREP",
+  "current_stage": "RD4-D1-PILOT",
   "d1_started": true,
   "rounds": [
     {
@@ -103,8 +103,19 @@
       "report": "rd4-d1-pilot-prep.md",
       "result": "复用 4/72，72 条 CPU 输入通过，68 条待执行已冻结。新增完整 forward 为 0。",
       "conclusion": "终端预检、监控、暂停、恢复和科学统计工具准备完成，正式执行由用户手动启动。"
+    },
+    {
+      "id": "rd4-d1-pilot-final",
+      "title": "RD4-D1 Pilot｜正式运行验收与两档名义年龄分析",
+      "status": "PASS",
+      "run_id": "RD4PILOT_apyoxH",
+      "report": "rd4-d1-pilot-final.md",
+      "issue": "https://github.com/Judecoodingspace/LRCP/issues/9",
+      "result": "72/72 条捕获哈希通过，68 次新增 forward 全部返回并提交，复用 4 条 Smoke，0 次失败。正式 CPU 统计及六张图完成。",
+      "conclusion": "固定 8 样本、3 场景，B0+C0 的 AP50/AP70 为 85.57%/83.03%；B3+C3 为 83.36%/78.98%。单源 C 从 lag3 到 lag0 的 AP70 增幅 (5.49 pp) 大于单源 B (0.21 pp)。结果限于两档名义年龄和本 Pilot。"
     }
   ],
-  "formal_pilot_remaining": 68,
-  "formal_pilot_started": false
+  "formal_pilot_remaining": 0,
+  "formal_pilot_started": true,
+  "formal_pilot_completed": true
 }
