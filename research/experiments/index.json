@@ -1,5 +1,5 @@
 {
-  "current_stage": "RD4-D0-R3",
+  "current_stage": "RD4-ENV-R1",
   "d1_started": false,
   "rounds": [
     {
@@ -59,6 +59,16 @@
         "production_voxelizer": "BLOCKED_MISSING_SPCONV_AND_OPEN3D",
         "issue": "https://github.com/Judecoodingspace/LRCP/issues/5"
       }
+    },
+    {
+      "id": "rd4-env-r1-runtime-recovery",
+      "title": "RD4-ENV-R1｜历史运行环境恢复与生产组件审计",
+      "status": "NEED_EXTENSION_BUILD",
+      "run_id": "ENV_R1_qP3ogh",
+      "report": "rd4-env-r1-runtime-recovery.md",
+      "issue": "https://github.com/Judecoodingspace/LRCP/issues/6",
+      "result": "历史环境未恢复，现成 Torch CPU 72/72 证据沿用；9 个旧 ELF 静态审计。",
+      "conclusion": "须批准相容 MSDeformAttn 和生产 spconv 构建、缺失依赖安装。D1 未启动。"
     }
   ]
 }

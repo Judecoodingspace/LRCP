@@ -11,3 +11,5 @@
 当前研究停在 **RD4-D0-R3**。72 条 NumPy CPU 输入已验收，生产组件和 Torch CPU 封装仍待验证，D1 尚未启动。后续每轮完成时，在此索引登记报告、机器可读状态及对应 GitHub Issue。
 
 - [RD4-D0-R3 补充 CPU 接口验收](rd4-d0-r3-cpu-interface-supplement.md) · **PARTIAL** · Torch CPU 72/72 · [Issue #5](https://github.com/Judecoodingspace/LRCP/issues/5)
+
+- [RD4-ENV-R1｜历史运行环境恢复与生产组件审计](rd4-env-r1-runtime-recovery.md) · **NEED_EXTENSION_BUILD** · [Issue #6](https://github.com/Judecoodingspace/LRCP/issues/6) · 等待兼容环境授权，D1 未启动。
