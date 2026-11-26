@@ -1,6 +1,6 @@
 # LRCP 实验发布索引
 
-从最新一轮或[机器可读索引](index.json)开始。各报告记录结论、证据与复现限制，GitHub Issues 记录对应验收。
+从[最新一轮](rd4-d4-r2-scale-validation-final.md)或[机器可读索引](index.json)开始。各报告记录结论、证据与复现限制，GitHub Issues 记录对应验收。
 
 - [RD3｜324 帧定位稳健性收口](rd3-324-localization-robustness.md) · **PASS** · `start.V3JpuM` · [Issue #1](https://github.com/Judecoodingspace/LRCP/issues/1)
 - [RD4-D0｜逐 Agent 观测年龄可行性](rd4-d0-independent-age-feasibility.md) · **PARTIAL** · `RD4D0_20261124_173647_KKSrQo` · [Issue #2](https://github.com/Judecoodingspace/LRCP/issues/2)
@@ -8,7 +8,7 @@
 - [RD4-D0-R2｜独立年龄加载与 CPU 输入等价](rd4-d0-r2-loader-equivalence.md) · **PARTIAL** · `RD4D0R2_20261124_211604_MoklD9` · [Issue #4](https://github.com/Judecoodingspace/LRCP/issues/4)
 - [RD4-D0-R3｜确定性预处理协议冻结与生产接口验收](rd4-d0-r3-deterministic-protocol.md) · **PARTIAL** · `RD4D0R3_20261124_222236_ZMlfqV` · [Issue #5](https://github.com/Judecoodingspace/LRCP/issues/5)
 
-当前研究完成 **RD4-D1-SMOKE**，8 次 Smoke 门禁全部通过。4 条结果可纳入 Pilot，其余 68 条尚未运行。
+当前研究完成 **RD4-D4-R2**，924 条正式捕获和 CPU 分析均已验收。
 
 - [RD4-D0-R3 补充 CPU 接口验收](rd4-d0-r3-cpu-interface-supplement.md) · **PARTIAL** · Torch CPU 72/72 · [Issue #5](https://github.com/Judecoodingspace/LRCP/issues/5)
 
@@ -29,3 +29,5 @@
 - [RD4-D4-R1｜独立场景复验与观测年龄效用](rd4-d4-r1-independent-validation-final.md) · **PASS** · `RD4D4R1PREP_epZeZe` · [Issue #12](https://github.com/Judecoodingspace/LRCP/issues/12) · 108/108 条正式捕获。
 
 - [RD4-D4-R2｜规模化年龄效用与物理槽位控制准备](rd4-d4-r2-scale-validation-prep.md) · **PARTIAL（技术验收通过，Notebook 到期时间待核实）** · `RD4D4R2PREP_7nNcY2` · [Issue #13](https://github.com/Judecoodingspace/LRCP/issues/13)。
+
+- [RD4-D4-R2｜规模化观测年龄效用与物理槽位控制](rd4-d4-r2-scale-validation-final.md) · **PASS** · `RD4D4R2PREP_7nNcY2` · [Issue #14](https://github.com/Judecoodingspace/LRCP/issues/14) · 924/924 条正式捕获，CPU 收口新增 forward 0。

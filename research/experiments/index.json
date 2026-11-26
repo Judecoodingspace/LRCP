@@ -1,5 +1,5 @@
 {
-  "current_stage": "RD4-D4-R2-PREP",
+  "current_stage": "RD4-D4-R2",
   "d1_started": true,
   "rounds": [
     {
@@ -153,6 +153,16 @@
       "issue": "https://github.com/Judecoodingspace/LRCP/issues/13",
       "result": "7 场景 100 个新评价帧，A 900/900、B 24/24 CPU 通过。正式记录 0/924，正式实验未启动。",
       "conclusion": "数据、真实标签重建、槽位双交换可逆性、运行器、分级捕获与分析程序准备通过；待核实 Notebook 实例到期时间。"
+    },
+    {
+      "id": "rd4-d4-r2-scale-validation-final",
+      "title": "RD4-D4-R2｜规模化观测年龄效用与物理槽位控制",
+      "status": "PASS",
+      "run_id": "RD4D4R2PREP_7nNcY2",
+      "report": "rd4-d4-r2-scale-validation-final.md",
+      "issue": "https://github.com/Judecoodingspace/LRCP/issues/14",
+      "result": "924/924 条有效。A 100 帧，B 24 个槽位交换配对。B/C 单源 AP70 更新 +5.01/+2.11 个百分点。lag3/lag0 有害边际 132/600、64/600。",
+      "conclusion": "年龄身份交换的集合 AP70 为 +1.41 个百分点，剔除场景 6 后为 −0.54。B 控制中 13/24 出现检测变化，R1 年龄身份差从 +6.77 缩至 +6.02 个百分点。槽位依赖可测量，结论适用于名义离散年龄与冻结协议。"
     }
   ],
   "formal_pilot_remaining": 0,
