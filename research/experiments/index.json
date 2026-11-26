@@ -1,5 +1,5 @@
 {
-  "current_stage": "RD4-D4-R1",
+  "current_stage": "RD4-D4-R2-PREP",
   "d1_started": true,
   "rounds": [
     {
@@ -143,6 +143,16 @@
       "issue": "https://github.com/Judecoodingspace/LRCP/issues/12",
       "result": "北京时间 2026-11-26 00:08:47 完成。108/108 正式记录哈希通过，均为新 forward，0 失败、中断及复用。",
       "conclusion": "新队列中 AB3C0 的 AP70 最高（91.79%），相对 AB0C3 +6.77 pp，六次逐场景剔除同号。B/C 单源 +1.15/+2.30 pp，后者主要由场景 97 驱动。lag3 加入有害 10/72，lag0 为 5/72。D1 的四项正跨源交互未在新队列稳定复现。"
+    },
+    {
+      "id": "rd4-d4-r2-scale-validation-prep",
+      "title": "RD4-D4-R2｜规模化年龄效用与物理槽位控制准备",
+      "status": "PARTIAL",
+      "run_id": "RD4D4R2PREP_7nNcY2",
+      "report": "rd4-d4-r2-scale-validation-prep.md",
+      "issue": "https://github.com/Judecoodingspace/LRCP/issues/13",
+      "result": "7 场景 100 个新评价帧，A 900/900、B 24/24 CPU 通过。正式记录 0/924，正式实验未启动。",
+      "conclusion": "数据、真实标签重建、槽位双交换可逆性、运行器、分级捕获与分析程序准备通过；待核实 Notebook 实例到期时间。"
     }
   ],
   "formal_pilot_remaining": 0,

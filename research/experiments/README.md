@@ -27,3 +27,5 @@
 - [RD4-D4-R1-PREP｜独立场景复验准备](rd4-d4-r1-independent-validation-prep.md) · **READY_FOR_MANUAL_VALIDATION** · `RD4D4R1PREP_epZeZe` · [Issue #11](https://github.com/Judecoodingspace/LRCP/issues/11) · CPU 输入 108/108，正式科学记录 0/108。
 
 - [RD4-D4-R1｜独立场景复验与观测年龄效用](rd4-d4-r1-independent-validation-final.md) · **PASS** · `RD4D4R1PREP_epZeZe` · [Issue #12](https://github.com/Judecoodingspace/LRCP/issues/12) · 108/108 条正式捕获。
+
+- [RD4-D4-R2｜规模化年龄效用与物理槽位控制准备](rd4-d4-r2-scale-validation-prep.md) · **PARTIAL（技术验收通过，Notebook 到期时间待核实）** · `RD4D4R2PREP_7nNcY2` · [Issue #13](https://github.com/Judecoodingspace/LRCP/issues/13)。
