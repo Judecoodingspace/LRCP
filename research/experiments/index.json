@@ -1,5 +1,5 @@
 {
-  "current_stage": "RD4-D4-R3-PREP",
+  "current_stage": "RD4-D4-R3",
   "d1_started": true,
   "rounds": [
     {
@@ -173,6 +173,16 @@
       "issue": "https://github.com/Judecoodingspace/LRCP/issues/15",
       "result": "200 条 R2 原序复用、200 条交换输入、8 条重复输入通过，实际 native CPU preflight 208/208，新增 forward 0。",
       "conclusion": "两个固定混龄排列组成 100 套析因对照。槽嵌入和采样、权重投影有槽位相关参数。14 条可做历史完整张量配对。等待手动运行及重复性门禁。"
+    },
+    {
+      "id": "rd4-d4-r3-source-slot-disentanglement-final",
+      "title": "RD4-D4-R3｜物理来源与模型槽位析因结果",
+      "status": "PASS",
+      "run_id": "RD4D4R3PREP_trGF8O",
+      "report": "rd4-d4-r3-source-slot-disentanglement-final.md",
+      "issue": "https://github.com/Judecoodingspace/LRCP/issues/16",
+      "result": "200 条原序和 200 条交换全部通过，另有 8 条重复。D_orig/D_swap/D_balanced AP70 为 +1.409574/+1.508099/+1.458836 个百分点，K +0.098525。",
+      "conclusion": "场景 6 剔除后均衡差 −0.493916。72/200 个槽位对照有离散变化。投影前差与槽嵌入差吻合，单模块对 AP 的贡献待验证。"
     }
   ],
   "formal_pilot_remaining": 0,
